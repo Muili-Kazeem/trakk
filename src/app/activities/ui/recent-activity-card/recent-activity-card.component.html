@@ -1,0 +1,12 @@
+<div class="recent-activity-card bg-blue-50 flex justify-content-between align-items-center gap-2 p-3
+    transition-all transition-duration-400 bordering border-hover"
+    *ngIf="activity">
+  <div class="flex align-items-center gap-2 w-full">
+    <small class="m-1 text-2xl"><fa-icon [icon]="faRun"></fa-icon></small>
+    <div class="flex flex-column gap-1">
+      <small class="text-xs lg:text-sm font-medium text-700"> {{ activity.date | localeDateFormating }} </small>
+      <span class="text-xl font-semibold font-bold">{{ activity.title }}</span>
+    </div>
+  </div>
+  <h3 class="text-2xl font-bold ">{{ activity.distance }}<span class="text-base">km</span></h3>
+</div>

@@ -1,0 +1,15 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+    @include styleclass('border-right-3 border-solid border-blue-500');
+}
+
+// .mobile-menu-wrapper {
+//   bottom: 70px;
+//   left: 30px;
+//   z-index: 200;
+// }
+
+fa-icon {
+  font-size: 1.25rem;
+}

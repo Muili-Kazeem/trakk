@@ -1,0 +1,29 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+  @include styleclass('lg:border-1 border-300 border-round-2xl');
+}
+
+.form-layout {
+  max-width: 1200px;
+}
+
+.form-container {
+  max-width: 600px
+}
+
+.labelling {
+  @include styleclass('lg:text-lg font-medium');
+}
+
+.field-wrapper {
+  @include styleclass('py-1 lg:py-2');
+}
+
+.hero-container {
+  width: 50%;
+    background: url("../../../../assets/pexels-philip-ackermann-878151.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}

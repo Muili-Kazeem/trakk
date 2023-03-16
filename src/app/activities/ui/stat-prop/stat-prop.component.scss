@@ -1,0 +1,14 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+    @include styleclass('border-right-3 border-solid border-blue-500');
+}
+
+.stat-prop {
+  min-width: 200px;
+
+  @media (max-width:990px) {
+    min-height: max-content;
+    width: 100%;
+  }
+}

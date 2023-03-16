@@ -1,0 +1,82 @@
+<div class="detail-layout h-full xl:py-3">
+  <div class="activity-info flex flex-column xl:flex-row gap-4 h-full mx-auto">
+
+    <div class="map-left xl:border-round-xl">
+    </div>
+
+    <div class="detail-right flex flex-column justify-content-between bordering p-3 xl:m-0 mx-3 mb-4">
+      <div class="p-2 flex flex-column gap-3">
+        <div>
+          <div class="flex gap-2">
+            <p-avatar label="P" styleClass="mr-2" size="large"></p-avatar>
+            <div class="font-medium flex flex-column gap-1">
+              <div class="text-700 text-sm">
+                <small class="mr-1"><fa-icon [icon]="faRun"></fa-icon></small>
+                <span class="">Running</span>
+              </div>
+              <h3 class="text-lg xl:text-xl">Athlete</h3>
+              <div class="text-700 text-sm">
+                23-03-2022 at 12:31am
+              </div>
+            </div>
+          </div>
+          <div class="mt-2">
+            <h2 class="text-xl lg:text-2xl mb-1">Title</h2>
+            <p class="text-base">Description</p>
+          </div>
+        </div>
+        <button pButton pRipple type="button" label="New run" class="px-5 p-buttom p-button-rounded align-self-center" (click)="applyGeo()">
+          <fa-icon class="mr-2" [icon]="faRun"></fa-icon>
+        </button>
+      </div>
+
+      <p-divider></p-divider>
+
+      <div class="flex flex-wrap p-2 gap-2 text-center">
+        <div class="flex flex-1 flex-column align-items-center w-max">
+          <small class="m-1"><fa-icon [icon]="faRoad"></fa-icon></small>
+          <span class="text-base text-700 mb-1 font-medium">Distance</span>
+          <p class="text-2xl lg:text-3xl font-bold">5</p>
+          <small class="">km</small>
+        </div>
+        <div class="flex flex-1 flex-column align-items-center w-max">
+          <small class="m-1"><fa-icon [icon]="faClock"></fa-icon></small>
+          <span class="text-base text-700 mb-1 font-medium">Duration</span>
+          <p class="text-2xl lg:text-3xl font-bold">29</p>
+          <small class=""> min </small>
+        </div>
+
+        <div class="flex flex-1 flex-column align-items-center w-max">
+          <small class="m-1"><fa-icon [icon]="faSpeed"></fa-icon></small>
+          <span class="text-base text-700 mb-1 font-medium">Speed</span>
+          <p class="text-2xl lg:text-3xl font-bold">78.4</p>
+          <small class=""> km/s</small>
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+
+      <div class="actions flex justify-content-center p-2 text-center gap-1">
+        <small class="flex-1 flex flex-column align-items-center">
+          <button pButton pRipple type="button" icon="pi pi-heart" class="p-button-lg p-button-rounded p-button-text p-button-primary my-2"></button>
+          <span class="">Add to favourite</span>
+        </small>
+        <small class="flex-1 flex flex-column align-items-center">
+          <button pButton pRipple type="button" icon="pi pi-send" class="p-button-lg p-button-rounded p-button-text p-button-secondary my-2"></button>
+          <span class="">Share</span>
+        </small>
+        <small class="flex-1 flex flex-column align-items-center">
+          <button pButton pRipple type="button" icon="pi pi-link" class="p-button-lg p-button-rounded p-button-text p-button-info my-2"></button>
+          <span class="">Copy Link</span>
+        </small>
+        <small class="flex-1 flex flex-column align-items-center">
+          <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-lg p-button-rounded p-button-text p-button-danger my-2"></button>
+          <span class="">Delete</span>
+        </small>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

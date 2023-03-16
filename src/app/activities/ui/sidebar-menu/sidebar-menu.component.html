@@ -1,0 +1,51 @@
+<nav class="h-full p-2">
+  <ul class="h-full flex flex-column gap-8 p-2">
+
+    <div class="">
+      <li class="mr-4">
+        <a href="">Trakk</a>
+      </li>
+      <li class="nav-item" [routerLink]="['']">
+        <a class="flex">
+        <small><fa-icon class="mr-3" [icon]="faOverview"></fa-icon></small>
+         <span class="">Overview</span>
+        </a>
+      </li>
+      <li class="nav-item" [routerLink]="['2', 'start']">
+        <a class="flex">
+        <small><fa-icon class="mr-3" [icon]="faStart"></fa-icon></small>
+         Start</a>
+      </li>
+      <li class="nav-item" [routerLink]="['coming']">
+        <a class="flex">
+        <small><fa-icon class="mr-3" [icon]="faActivity"></fa-icon></small>
+         Activities</a>
+      </li>
+      <li class="nav-item" [routerLink]="['stat']">
+        <a class="flex">
+        <small><fa-icon class="mr-3" [icon]="faStats"></fa-icon></small>
+         Stats</a>
+      </li>
+      <li class="nav-item" [routerLink]="['settings']">
+        <a class="flex">
+        <small><fa-icon class="mr-3" [icon]="faSettings"></fa-icon></small>
+         Settings</a>
+      </li>
+    </div>
+
+    <div class="">
+      <li class="nav-item">
+        <a class="flex">
+        <small><fa-icon class="mr-3" [icon]="faLogOut"></fa-icon></small>
+         <span class="">LogOut</span>
+        </a>
+      </li>
+      <li class="nav-item" [routerLink]="['profile']">
+        <a class="flex">
+        <small><fa-icon class="mr-3" [icon]="faUser"></fa-icon></small>
+         <span class="">User</span>
+        </a>
+      </li>
+    </div>
+  </ul>
+</nav>

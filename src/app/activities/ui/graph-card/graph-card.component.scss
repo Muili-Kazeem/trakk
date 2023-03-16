@@ -1,0 +1,11 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+    @include styleclass('border-1 border-300 border-round-xl');
+}
+
+.chart {
+  max-width: 400px;
+  width: 100%;
+  aspect-ratio: 1;
+}

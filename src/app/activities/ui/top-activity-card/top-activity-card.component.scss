@@ -1,0 +1,19 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+    @include styleclass('border-2 border-transparent border-round-2xl');
+}
+
+.border-hover {
+  @include styleclass('hover:border-blue-300');
+}
+
+.top-activity-card {
+  min-width: 200px;
+  min-height: 150px;
+
+  @media (max-width:990px) {
+    min-height: max-content;
+    width: 100%;
+  }
+}

@@ -1,0 +1,45 @@
+<div class="dashboard-layout h-full p-1">
+  <div class="activity-dashboard flex flex-column xl:flex-row gap-4 h-full p-3 mx-auto">
+
+    <div class="left-stat flex flex-column w-full gap-4">
+      <div class="stat-top gap-4 flex flex-column xl:flex-row flex-order-2 xl:flex-order-1">
+        <div class="preview hidden xl:inline-flex bordering">
+        </div>
+        <div class="graph flex justify-content-center align-items-center bordering">
+          <app-graph-card class="w-full" [categorizedActivities]="allCategorizedActivities$"></app-graph-card>
+        </div>
+      </div>
+
+      <div class="stat-bottom p-2 lg:p-4 flex-order-1 xl:flex-order-2 xl:overflow-y-auto bordering">
+        <h3 class="mb-2 lg:mb-3 text-xl lg:text-2xl">Top activities</h3>
+        <div class="top-activities flex flex-column sm:flex-row flex-wrap gap-2 lg:gap-3">
+          <app-top-activity-card pRipple
+            *ngFor="let reducedActivity of allReducedActivities$ | async as allReducedActivities"
+            [routerLink]="[reducedActivity.category]"
+            [activity]="reducedActivity"
+            [numOfActivity]="reducedActivity.length">
+          </app-top-activity-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-recent border-round-xl gap-1 lg:gap-4 flex flex-column h-full">
+      <div class="preview flex-auto p-4 bordering hidden xl:block">
+        <app-recent-activity-card></app-recent-activity-card>
+      </div>
+
+      <div class="recent flex flex-column flex-auto p-2 lg:p-4  bordering">
+        <h3 class="mb-2 lg:mb-3 text-xl lg:text-2xl">Recent activities</h3>
+        <div class="recent-activities flex flex-column sm:flex-row flex-wrap gap-2 lg:gap-3">
+          <ng-container *ngIf="allRecentActivities$ | async as allRecentActivities">
+            <app-recent-activity-card pRipple
+              [routerLink]="[recentActivity.category, recentActivity.activityId]"
+              *ngFor="let recentActivity of allRecentActivities"
+              [activity]="recentActivity">
+            </app-recent-activity-card>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

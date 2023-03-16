@@ -1,0 +1,48 @@
+<div class="overview flex h-auto lg:h-screen lg:relative">
+  <div class="map-wrapper flex-auto hidden lg:block">
+    <app-active-activity-map></app-active-activity-map>
+  </div>
+
+  <small (click)="toggleMetricsPane()"
+  class="detail-toggle-btn absolute surface-50 p-3 border-round-md hidden lg:block pointer">
+    <fa-icon class="text-lg" [icon]="faMenu"></fa-icon>
+  </small>
+
+  <div *ngIf="displayMetricsPane"
+    class="metrics-wrapper flex flex-column align-items-center py-4 gap-2 border-round-lg lg:absolute surface-50">
+    <span class="flex gap-2 my-3 align-items-center text-xl font-medium bordering">
+      <fa-icon class="" [icon]="faRun"></fa-icon>
+      <p>Running</p>
+    </span>
+
+    <small class="my-5"><fa-icon class="text-8xl" [icon]="faSpeed"></fa-icon></small>
+
+    <div class="text-center bordering">
+      <fa-icon [icon]="faRoad"></fa-icon>
+      <h3 class="text-7xl">5.67</h3>
+      <p class="text-lg font-bold">kilometer</p>
+    </div>
+
+    <div class="surface-200 mt-4 text-xl p-3 border-round-3xl lg:hidden" (click)="showMap()">
+      <fa-icon class="mx-2" [icon]="faMap"></fa-icon>
+    </div>
+
+    <div class="timer flex gap-5 lg:my-5 my-2 text-lg surface-200 py-4 w-full justify-content-center align-items-center bordering">
+      <span>
+        <fa-icon class="mx-2" [icon]="faTime"></fa-icon>
+        <span class="text-2xl font-bold">{{ timer.getTimeFormatted() }}</span>
+      </span>
+      <span>
+        <fa-icon class="mx-2" [icon]="faRun"></fa-icon>
+        <span class="text-2xl font-bold">34km/h</span>
+      </span>
+    </div>
+
+    <div class="flex justify-content-center gap-4 my-3 bordering">
+      <button pButton pRipple type="button" icon="pi pi-play"  class="p-button-rounded p-button-outlined" (click)="timer.start()"> </button>
+      <button pButton pRipple type="button" icon="pi pi-pause"  class="p-button-rounded p-button-outlined" (click)="timer.pause()"> </button>
+      <button pButton pRipple type="button" icon="pi pi-stop" class="p-button-rounded p-button-outlined" (click)="timer.restart()"> </button>
+    </div>
+
+  </div>
+</div>

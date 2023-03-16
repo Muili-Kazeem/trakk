@@ -1,0 +1,68 @@
+<div class="min-h-full px-3 lg:p-0">
+
+  <div class="form-layout min-h-full p-2 lg:p-3 flex gap-5 mx-auto">
+    <div class="form-container w-full xl:w-6 mx-auto">
+      <h2 class="text-2xl my-2 lg:my-3 font-bold">Choose your activity and get started</h2>
+
+      <form #activityForm="ngForm" class="py-3" (ngSubmit)="onSubmit(activityForm)">
+        <div class="field field-wrapper">
+          <label for="athlete" class="block labelling">Athlete</label>
+          <input
+            id="athlete"
+            type="username"
+            name="athlete"
+            placeholder="Ustain Zolt"
+            pInputText class="p-3 border-round-lg lg:border-round-2xl lg:w-7"
+            [(ngModel)]="activityData.athlete" />
+        </div>
+
+        <div class="lg:flex align-items-center gap-5">
+          <div class="field field-wrapper">
+            <label class="block labelling" for="activity">Activity</label>
+            <p-autoComplete
+              class="border-round-2xl"
+              id="activity"
+              name="activity"
+              [(ngModel)]="activityData.activity"
+              [suggestions]="filteredActivities"
+              (completeMethod)="filterActivity($event)"
+              [dropdown]="true">
+                <ng-template let-activity pTemplate="item">
+                  <div>{{ activity }}</div>
+                </ng-template>
+            </p-autoComplete>
+          </div>
+
+          <div class="field flex-auto field-wrapper">
+            <label for="title" class="block labelling">Title</label>
+            <input
+              id="title"
+              type="text" pInputText
+              class="p-3 border-round-lg lg:border-round-2xl w-full"
+              name="title"
+              [(ngModel)]="activityData.title" />
+          </div>
+        </div>
+
+        <div class="field field-wrapper">
+          <label for="description" class="block labelling">Description</label>
+          <textarea
+            id="description"
+            class="p-2 lg:p-3 border-round-lg lg:border-round-2xl w-full"
+            rows="5"
+            name="description"
+            pInputTextarea [autoResize]="true"
+            [(ngModel)]="activityData.description" >
+          </textarea>
+        </div>
+
+        <button pButton pRipple type="submit" label="Let's Go" class="text-base lg:text-xl px-5 lg:px-8 lg:py-3 border-round-xl">
+          <fa-icon class="mr-2" [icon]="faStart"></fa-icon>
+        </button>
+      </form>
+    </div>
+
+    <div class="hero-container hidden xl:inline-flex w-6 border-round-xl">
+    </div>
+  </div>
+</div>

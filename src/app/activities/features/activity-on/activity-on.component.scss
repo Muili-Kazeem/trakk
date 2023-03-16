@@ -1,0 +1,27 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+  @include styleclass('lg:border-1 border-300 border-round-2xl');
+}
+
+.metrics-wrapper {
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 90%;
+  width: 25%;
+
+  @media (max-width:990px) {
+    transform: translateY(0);
+    width: 100%;
+  }
+}
+
+.detail-toggle-btn {
+  left: 30px;
+  top: 50px;
+}
+
+.timer {
+  font-family: 'Inconsolata', monospace;
+}

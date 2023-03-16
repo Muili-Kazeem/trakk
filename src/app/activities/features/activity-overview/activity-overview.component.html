@@ -1,0 +1,69 @@
+<div class="h-full p-1">
+
+  <div class="activity-overview flex flex-column gap-4 mx-auto p-3">
+    <h2 class="lg:hidden text-2xl font-bold">Overview</h2>
+
+    <div class="hero-wrapper flex flex-column lg:flex-row border-round-2xl my-2 lg:m-0">
+      <div class="hero-left flex-auto flex lg:flex-column lg:justify-content-between justify-content-center lg:p-6 text-white">
+        <div class="flex lg:flex-column align-items-center lg:align-items-start">
+          <small class="m-2 block text-md lg:text-5xl"><fa-icon [icon]="faRun"></fa-icon></small>
+          <span class="text-md lg:text-7xl"> {{ activityCategory }} </span>
+        </div>
+        <button pButton pRipple type="button" label="Start" class="start-btn px-5 py-3 p-button-rounded align-self-start lg:static fixed" [routerLink]="[ '..', 0, 'start']">
+          <fa-icon class="mr-2" [icon]="faStart"></fa-icon>
+        </button>
+      </div>
+
+      <div class="hero-right flex flex-column flex-auto text-white">
+        <div class="flex flex-auto justify-content-center flex-column p-3 align-items-center">
+          <h4 class="text-sm lg:text-xl">Total</h4>
+          <p class="text-6xl lg:text-8xl font-bold"> {{ categoryTotalDistance$ | async }} </p>
+          <p class="text-md lg:text-2xl flex align-items-center">
+            <small class="mr-2 lg:mr-3 text-xl"><fa-icon [icon]="faRoad"></fa-icon></small>
+            <small>Distance (km)</small>
+          </p>
+        </div>
+        <div class="flex p-3 flex-row flex-auto gap-2 align-items-center lg:p-0">
+          <div class="flex-auto flex flex-column align-items-center">
+            <small class="m-1 lg:m-2 xl:text-2xl"><fa-icon [icon]="faRun"></fa-icon></small>
+            <p class="text-2xl lg:text-3xl font-bold" *ngIf="categoryActivities$ | async as catActivities"> {{ catActivities.length }} </p>
+            <small class="text-xs lg:text-lg">No. of runs</small>
+          </div>
+          <div class="flex-auto flex flex-column align-items-center">
+            <small class="m-1 xl:m-2 lg:text-2xl"><fa-icon [icon]="faClock"></fa-icon></small>
+            <p class="text-2xl lg:text-3xl font-bold">{{ categoryTotalDuration$ | async }}</p>
+            <small class="text-xs lg:text-lg">Duration (min)</small>
+          </div>
+          <div class="flex-auto flex flex-column align-items-center">
+            <small class="m-1 lg:m-2 lg:text-2xl"><fa-icon [icon]="faSpeed"></fa-icon></small>
+            <p class="text-2xl lg:text-3xl font-bold">78.5</p>
+            <small class="text-xs lg:text-lg">Avg. speed</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-wrapper flex gap-1 lg:gap-4 flex-column xl:flex-row">
+      <div class="recent-runs bordering p-2 py-3 lg:p-4">
+        <h3 class="mb-2 lg:mb-3 text-xl lg:text-2xl">Recent activities </h3>
+        <div class="flex flex-column sm:flex-row flex-wrap gap-2 lg:gap-3">
+          <app-activity-card
+            [routerLink]="[activity.activityId]"
+            *ngFor="let activity of categoryActivities$ | async"
+            [activity]="activity">
+          </app-activity-card>
+        </div>
+      </div>
+
+      <div class="visualizations bordering p-2 py-3 lg:p-4">
+        <h3 class="mb-2 lg:mb-3 text-xl lg:text-2xl">Visualization</h3>
+        <div class="flex flex-column sm:flex-row flex-wrap gap-2 lg:gap-3">
+          <app-activity-card
+            *ngFor="let activity of categoryActivities$ | async"
+            [activity]="activity">
+          </app-activity-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

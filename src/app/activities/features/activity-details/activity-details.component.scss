@@ -1,0 +1,28 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+  @include styleclass('lg:border-1 border-300 border-round-xl');
+}
+
+.activity-info {
+  max-width: 1200px;
+}
+
+.map-left {
+  flex: 5 1 70%;
+  height: 100%;
+  background: url("../../../../assets/pexels-philip-ackermann-878151.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  @media (max-width: 1200px) {
+    width: 100%;
+    max-height: 600px;
+    aspect-ratio: 3/4;
+  }
+}
+
+.detail-right {
+  flex: 1 1 30%;
+}

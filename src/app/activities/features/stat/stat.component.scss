@@ -1,0 +1,18 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+    @include styleclass('border-right-3 border-solid border-blue-500');
+}
+
+.stat-layout {
+  max-width: 1200px;
+}
+
+app-stat-prop {
+  flex: 1 1 23%;
+  max-width: 300px;
+
+  @media (max-width:990px) {
+    max-width: 100%;
+  }
+}

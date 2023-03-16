@@ -1,0 +1,9 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+    @include styleclass('border-round-xl border-2 border-transparent');
+}
+
+.border-hover {
+  @include styleclass('hover:border-blue-300');
+}

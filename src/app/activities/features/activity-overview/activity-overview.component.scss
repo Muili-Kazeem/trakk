@@ -1,0 +1,41 @@
+@import 'primeflex/primeflex.scss';
+
+.bordering {
+  @include styleclass('lg:border-1 border-300 border-round-2xl');
+}
+
+.activity-overview {
+  max-width: 1200px;
+}
+
+.hero-wrapper {
+  background: url("../../../../assets/pexels-philip-ackermann-878151.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  aspect-ratio: 14/5;
+
+  @media (max-width: 1200px) {
+    max-height: 400px;
+    aspect-ratio: 2/3;
+  }
+
+}
+
+.recent-runs, .visualizations {
+  flex: 1 1 auto;
+  // @media (max-width: 1200px) {
+  //   width: 100%;
+  // }
+}
+
+.start-btn {
+  bottom: 55px;
+  right: 30px;
+  z-index: 200;
+}
+
+app-activity-card {
+  flex: 1 1 30%;
+  min-width: 300px;
+}
