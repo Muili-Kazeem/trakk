@@ -1,4 +1,4 @@
-<div class="h-full p-1">
+<div class="h-full p-1" *ngIf="categoryActivities$ | async">
 
   <div class="activity-overview flex flex-column gap-4 mx-auto p-3">
     <h2 class="lg:hidden text-2xl font-bold">Overview</h2>
@@ -9,7 +9,10 @@
           <small class="m-2 block text-md lg:text-5xl"><fa-icon [icon]="faRun"></fa-icon></small>
           <span class="text-md lg:text-7xl"> {{ activityCategory }} </span>
         </div>
-        <button pButton pRipple type="button" label="Start" class="start-btn px-5 py-3 p-button-rounded align-self-start lg:static fixed" [routerLink]="[ '..', 0, 'start']">
+        <button pButton pRipple type="button"
+          label="Start"
+          class="start-btn px-5 py-3 p-button-rounded align-self-start lg:static fixed"
+          [routerLink]="[ '..', 0, 'start']">
           <fa-icon class="mr-2" [icon]="faStart"></fa-icon>
         </button>
       </div>
@@ -24,14 +27,14 @@
           </p>
         </div>
         <div class="flex p-3 flex-row flex-auto gap-2 align-items-center lg:p-0">
-          <div class="flex-auto flex flex-column align-items-center">
+          <div class="flex-auto flex flex-column align-items-center" *ngIf="categoryActivities$ | async as catActivities">
             <small class="m-1 lg:m-2 xl:text-2xl"><fa-icon [icon]="faRun"></fa-icon></small>
-            <p class="text-2xl lg:text-3xl font-bold" *ngIf="categoryActivities$ | async as catActivities"> {{ catActivities.length }} </p>
-            <small class="text-xs lg:text-lg">No. of runs</small>
+            <p class="text-2xl lg:text-3xl font-bold"> {{ catActivities.length }} </p>
+            <small class="text-xs lg:text-lg">{{ catActivities.length > 1 ? "Activities": "Activity" }}</small>
           </div>
-          <div class="flex-auto flex flex-column align-items-center">
+          <div class="flex-auto flex flex-column align-items-center" *ngIf="categoryTotalDuration$ | async as catTotalDuration">
             <small class="m-1 xl:m-2 lg:text-2xl"><fa-icon [icon]="faClock"></fa-icon></small>
-            <p class="text-2xl lg:text-3xl font-bold">{{ categoryTotalDuration$ | async }}</p>
+            <p class="text-2xl lg:text-3xl font-bold">{{ catTotalDuration }}</p>
             <small class="text-xs lg:text-lg">Duration (min)</small>
           </div>
           <div class="flex-auto flex flex-column align-items-center">

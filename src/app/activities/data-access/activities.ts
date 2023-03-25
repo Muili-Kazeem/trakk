@@ -1,5 +1,4 @@
 import { IActivity } from "../utils/models/iactivity";
-import { DateTime } from "luxon";
 
 export const ACTIVITIES: IActivity[] = [
   {

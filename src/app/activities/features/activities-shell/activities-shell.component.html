@@ -1,20 +1,22 @@
 <div class="layout min-h-screen max-w-screen">
-  <div class="flex flex-column lg:flex-row min-h-screen">
+  <div class="flex flex-column lg:flex-row h-screen">
     <p-sidebar [(visible)]="display" [transitionOptions]="'300ms ease-in-out'" class="lg:hidden">
       <app-sidebar-menu></app-sidebar-menu>
     </p-sidebar>
-    <header class="mobile-menu-wrapper lg:hidden flex p-3 py-4 justify-content-end">
+    <header class="mobile-menu-wrapper lg:hidden flex p-3 py-4 justify-content-between">
+      <img src="../../../../assets/PNGs/trakk.png" alt="trakk logo" class="w-3">
       <small><fa-icon (click)="display = true" class="p-2 mx-2" [icon]="faMenu"></fa-icon></small>
     </header>
 
-    <div class="layout-menu-wrapper hidden lg:block justify-content-between border-right-3 border-200"
-         style="width: 18rem;">
+    <div class="layout-menu-wrapper hidden lg:block justify-content-between border-right-3 border-200 h-screen overflow-auto"
+         style="width: 18rem;" *ngIf="!((pageTitle$ | async) === 'on')">
       <app-sidebar-menu></app-sidebar-menu>
     </div>
 
-    <main class="layout-main flex flex-column flex-auto">
-      <header class="layout-topbar-wrapper mx-auto w-full hidden lg:flex justify-content-between align-items-center p-3 sticky top-0" style="max-width: 1200px;">
-        <div class="text-4xl ml-3 font-bold"> Overview </div>
+    <main class="layout-main flex flex-column flex-auto h-screen overflow-auto">
+      <header class="layout-topbar-wrapper mx-auto w-full hidden lg:flex justify-content-between align-items-center p-3 sticky top-0"
+              style="max-width: 1200px;" *ngIf="!((pageTitle$ | async) === 'on')">
+        <div class="text-4xl ml-3 font-bold"> {{ pageTitle$ | async }} </div>
         <div class="flex flex-auto justify-content-end align-items-center">
           <span class="p-input-icon-left ml-5">
             <i class="pi pi-search"></i>

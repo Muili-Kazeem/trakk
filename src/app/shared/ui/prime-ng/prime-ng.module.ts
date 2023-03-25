@@ -15,7 +15,11 @@ import { ChartModule } from 'primeng/chart';
 import { SkeletonModule } from 'primeng/skeleton';
 import { RippleModule } from 'primeng/ripple';
 import { TooltipModule } from 'primeng/tooltip';
-import { AvatarModule } from 'primeng/avatar'
+import { AvatarModule } from 'primeng/avatar';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { PasswordModule } from 'primeng/password';
 
 
 
@@ -38,7 +42,11 @@ import { AvatarModule } from 'primeng/avatar'
     SkeletonModule,
     RippleModule,
     TooltipModule,
-    AvatarModule
+    AvatarModule,
+    MessagesModule,
+    MessageModule,
+    ConfirmDialogModule,
+    PasswordModule
   ],
   exports: [
     FontAwesomeModule,
@@ -56,7 +64,11 @@ import { AvatarModule } from 'primeng/avatar'
     SkeletonModule,
     RippleModule,
     TooltipModule,
-    AvatarModule
+    AvatarModule,
+    MessagesModule,
+    MessageModule,
+    ConfirmDialogModule,
+    PasswordModule
   ]
 })
 export class PrimeNgModule { }

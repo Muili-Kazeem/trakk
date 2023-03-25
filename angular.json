@@ -104,6 +104,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "trakk:build:production",
+            "firebaseProject": "trakk-5ef1f",
+            "firebaseHostingSite": "trakk"
+          }
         }
       }
     }

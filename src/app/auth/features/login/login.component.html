@@ -1,0 +1,63 @@
+<div class="login-container min-h-screen max-w-screen">
+  <div class="flex min-h-screen">
+    <div class="flex-1 min-h-screen">
+      <div class="form-container h-full flex flex-column justify-content-center gap-2 mx-auto">
+        <div class="mb-4">
+          <h2 class="text-5xl">Login to Trakk</h2>
+        </div>
+
+        <div class="w-max">
+          <a class="flex align-items-center border-2 border-400 w-max border-round-lg overflow-hidden" href="">
+            <img src="../../../assets/PNGs/google.png" class="m-2 lg:m-3" width="20px" alt="google slug">
+            <span class="border-400 p-2 lg:p-3 bg-blue-500 text-white">Sign in with Google</span>
+          </a>
+          <p-divider align="center" styleClass="w-full xl:w-9">
+            <b>or</b>
+          </p-divider>
+        </div>
+
+        <form class="py-3" (ngSubmit)="onLogin()" [formGroup]="loginForm">
+          <div class="field field-wrapper">
+            <label for="email" class="block labelling">Username or Email Address</label>
+            <input
+              formControlName="email"
+              id="email"
+              type="text"
+              placeholder="Ustainzolt@gmail.com"
+              pInputText class="p-3 w-full xl:w-9 border-round-2xl"
+            />
+          </div>
+
+          <div class="field field-wrapper">
+            <label for="password" class="block labelling">Password</label>
+            <p-password
+              formControlName="password"
+              id="password"
+              [feedback]="false" [toggleMask]="true">
+            </p-password>
+          </div>
+
+          <button pButton pRipple
+            type="submit"
+            label="Login"
+            class="border-round-2xl py-3 my-2 w-5">
+          </button>
+        </form>
+
+        <div>
+          Don't have an account? <a [routerLink]="['..', 'signup']">Sign up</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="hidden xl:inline-flex flex-1 bg-blue-800">
+      <div class="flex">
+        <h2>preview here</h2>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

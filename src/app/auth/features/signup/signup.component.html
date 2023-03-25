@@ -1,0 +1,64 @@
+<div class="signup-container min-h-screen max-w-screen">
+  <div class="flex min-h-screen">
+    <div class="flex-1 min-h-screen">
+      <div class="form-container h-full flex flex-column justify-content-center gap-2 mx-auto">
+        <div>
+          <h2 class="text-5xl">Welcome to Trakk</h2>
+          <h5 class="w-10">Seamlessly track your real-time activities and stay connected to your tracking IOT devices on the go</h5>
+        </div>
+
+        <form class="py-3" (ngSubmit)="onSignup()" [formGroup]="signupForm">
+          <div class="field field-wrapper">
+            <label for="email" class="block labelling">Username or Email Address</label>
+            <input
+              formControlName="email"
+              id="email"
+              type="text"
+              placeholder="Ustainzolt@gmail.com"
+              pInputText class="p-3 w-full xl:w-9 border-round-2xl"
+            />
+          </div>
+
+          <div class="field field-wrapper">
+            <label for="password" class="block labelling">Password</label>
+            <p-password
+              formControlName="password"
+              id="password"
+              [feedback]="false" [toggleMask]="true">
+            </p-password>
+          </div>
+
+          <button pButton pRipple
+            type="submit"
+            label="Create an account"
+            class="border-round-2xl py-3 px-4">
+          </button>
+        </form>
+
+        <div class="mb-4 w-max">
+          <p-divider align="center" styleClass="w-full xl:w-9 mb-3">
+            <b>or</b>
+          </p-divider>
+          <a class="flex align-items-center border-2 border-400 w-max border-round-lg overflow-hidden" href="">
+            <img src="../../../assets/PNGs/google.png" class="m-2 lg:m-3" width="20px" alt="google slug">
+            <span class="border-400 p-2 lg:p-3 bg-blue-500 text-white">Sign up with Google</span>
+          </a>
+        </div>
+
+        <div>
+          Already have an account? <a [routerLink]="['..', 'login']">Log in</a>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="hidden xl:inline-flex flex-1 bg-blue-800">
+      <div class="flex">
+        <h2>preview here</h2>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

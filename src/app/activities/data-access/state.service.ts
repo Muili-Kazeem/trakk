@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { IActivity } from '../utils/models/iactivity';
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +9,17 @@ export class StateService {
 
   constructor() { }
 
-  private isActivityOnSub = new BehaviorSubject<boolean>(true);
-  isActivityOn$ = this.isActivityOnSub.asObservable();
+  private showcasePreviewSubject = new Subject<any>();
+  showcasePreview$ = this.showcasePreviewSubject.asObservable();
 
-  setActivityState() {
-    this.isActivityOnSub.next(false);
+  emitPreviewActivity(activity: IActivity) {
+    this.showcasePreviewSubject.next(activity)
   }
 
-  unsetActivityState() {
-    this.isActivityOnSub.next(true);
+  private pageTitleSubject = new BehaviorSubject<string>("Overview");
+  pageTitle$ = this.pageTitleSubject.asObservable();
+
+  emitPageTitle(pageTitle: string) {
+    this.pageTitleSubject.next(pageTitle)
   }
 }

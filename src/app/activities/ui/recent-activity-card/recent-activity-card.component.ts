@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { faBolt, faClock, faRoad, faRunning, faWind } from '@fortawesome/free-solid-svg-icons';
 import { IActivity } from '../../utils/models/iactivity';
+import { StateService } from '../../data-access/state.service';
 
 @Component({
   selector: 'app-recent-activity-card',
@@ -16,7 +17,15 @@ export class RecentActivityCardComponent implements OnInit {
   faSpeed = faWind;
   faRoad = faRoad;
 
+  constructor(private state: StateService) {
+
+  }
+
   ngOnInit(): void {
 
+  }
+
+  preview(activity: IActivity) {
+    this.state.emitPreviewActivity(activity);
   }
 }

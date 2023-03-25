@@ -7,6 +7,7 @@ import { GraphCardComponent } from '../../ui/graph-card/graph-card.component';
 import { TopActivityCardComponent } from '../../ui/top-activity-card/top-activity-card.component';
 import { RecentActivityCardComponent } from '../../ui/recent-activity-card/recent-activity-card.component';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -20,6 +21,7 @@ import { PipesModule } from 'src/app/shared/pipes/pipes.module';
   imports: [
     CommonModule,
     PrimeNgModule,
+    FormsModule,
     PipesModule,
     RouterModule.forChild([
       {

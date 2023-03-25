@@ -1,7 +1,7 @@
 @import 'primeflex/primeflex.scss';
 
 .bordering {
-    @include styleclass('border-right-3 border-solid border-blue-500');
+  @include styleclass('lg:border-1 border-300 border-round-xl');
 }
 
 // .mobile-menu-wrapper {

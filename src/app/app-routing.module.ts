@@ -18,6 +18,13 @@ const routes: Routes = [
       )
   },
   {
+    path: 'auth',
+    loadChildren: () =>
+      import("./auth/features/auth.module").then(
+        (m) => m.AuthModule
+      )
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: "full"

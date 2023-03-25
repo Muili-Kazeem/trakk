@@ -6,10 +6,13 @@ import { DateTime } from 'luxon';
 })
 export class LocaleDateFormatingPipe implements PipeTransform {
 
-  // formattingOptions: object = { year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }
-
   transform(value: Date): string {
-    return DateTime.fromJSDate(value).toLocaleString(DateTime.DATETIME_MED);
+    // SPRINKLE IF/ELSE AND CUSTOM LOGIC EVERYWHERE
+
+    // let date = DateTime.fromJSDate(value).toRelativeCalendar()
+    let date = DateTime.fromJSDate(value).toLocaleString(DateTime.DATETIME_FULL);
+    date = date.split(" ").slice(0, -2).join(" ")
+    return date;
   }
 
 }

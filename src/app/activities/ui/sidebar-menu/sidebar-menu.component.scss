@@ -1,11 +1,11 @@
 @import 'primeflex/primeflex.scss';
 
 .bordering {
-    @include styleclass('border-2 border-solid border-yellow-700');
+  @include styleclass('lg:border-1 border-300 border-round-xl');
 }
 
 .nav-item {
-  @include styleclass('hover:bg-blue-100 hover:text-black px-3 py-2 my-1 border-round-md');
+  @include styleclass('hover:bg-blue-50 p-2 my-2 border-round-lg font-medium text-800 hover:text-blue-800');
 }
 
 small {

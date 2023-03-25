@@ -1,26 +1,27 @@
 export interface IActivity {
-  activityId: number;
+  activityId: number | string;
   category: string;
-  title: string;
-  description: string;
-  athlete: string;
+  title?: string;
+  description?: string;
+  athlete?: string;
   date: Date;
   starting: {
     coords: number[];
-    name: string;
+    name?: string;
     timeStamp: Date;
   };
   stopping: {
     coords: number[];
-    name: string;
+    name?: string;
     timeStamp: Date;
   };
   distance: number;
   duration: number;
-  maxSpeed: number;
+  maxSpeed?: number;
   navigatingCoords: object;
-  favourite: boolean;
-  deleted: boolean;
+  favourite?: boolean;
+  deleted?: boolean;
+  searchKey?: string[];
 }
 
 export interface ICategorizedActivity {

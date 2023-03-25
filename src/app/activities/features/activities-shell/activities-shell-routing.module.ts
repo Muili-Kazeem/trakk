@@ -9,6 +9,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        data: { pageTitle: "Overview"},
         loadChildren: () =>
         import("../activities-home/activities-home.module").then(
           (m) => m.ActivitiesHomeModule
@@ -16,6 +17,7 @@ const routes: Routes = [
       },
       {
         path: 'stat',
+        data: { pageTitle: "Activities Stats"},
         loadChildren: () =>
           import("../stat/stat.module").then(
             (m) => m.StatModule
@@ -23,6 +25,7 @@ const routes: Routes = [
       },
       {
         path: 'profile',
+        data: { pageTitle: "Profile"},
         loadChildren: () =>
           import("../profile/profile.module").then(
             (m) => m.ProfileModule
@@ -30,6 +33,7 @@ const routes: Routes = [
       },
       {
         path: 'settings',
+        data: { pageTitle: "Settings"},
         loadChildren: () =>
           import("../settings/settings.module").then(
             (m) => m.SettingsModule
@@ -37,6 +41,7 @@ const routes: Routes = [
       },
       {
         path: ':activity',
+        data: { pageTitle: "Activity Overview"},
         loadChildren: () =>
           import("../activity-overview/activity-overview.module").then(
             (m) => m.ActivityOverviewModule
@@ -44,6 +49,7 @@ const routes: Routes = [
       },
       {
         path: ':id/start',
+        data: { pageTitle: "form"},
         loadChildren: () =>
           import("../activity-form/activity-form.module").then(
             (m) => m.ActivityFormModule
@@ -51,6 +57,7 @@ const routes: Routes = [
       },
       {
         path: ':activity/:id',
+        data: { pageTitle: "Detail"},
         loadChildren: () =>
           import("../activity-details/activity-details.module").then(
             (m) => m.ActivityDetailsModule
@@ -58,6 +65,7 @@ const routes: Routes = [
       },
       {
         path: ':activity/:id/on',
+        data: { pageTitle: "on"},
         loadChildren: () =>
           import("../activity-on/activity-on.module").then(
             (m) => m.ActivityOnModule

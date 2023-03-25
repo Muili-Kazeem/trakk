@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "trakk-5ef1f": {
+      "hosting": {
+        "trakk": [
+          "trakk"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "trakk-5ef1f"
+  }
+}

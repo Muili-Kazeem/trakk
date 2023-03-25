@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, map, tap } from 'rxjs';
 import { IActivity } from '../../utils/models/iactivity';
 import { recentSorting } from '../../utils/funcs/recentSorting';
+import { StateService } from '../../data-access/state.service';
 
 @Component({
   selector: 'app-activity-overview',
@@ -23,7 +24,7 @@ export class ActivityOverviewComponent implements OnInit {
   categoryTotalDuration$!: Observable<number>;
   categoryTotalDistance$!: Observable<number>;
 
-  constructor( private activitiesService: ActivitiesDataService, private route: ActivatedRoute ) { }
+  constructor( private activitiesService: ActivitiesDataService, private route: ActivatedRoute, private state: StateService ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
@@ -35,6 +36,8 @@ export class ActivityOverviewComponent implements OnInit {
         )
       }
     )
+
+    this.state.emitPageTitle(this.route.snapshot?.data["pageTitle"])
 
     this.categoryTotalDistance$ = this.categoryActivities$.pipe(
       map(categoryActivities => {
@@ -57,10 +60,6 @@ export class ActivityOverviewComponent implements OnInit {
     )
 
   }
-
-
-
-
 
 
 }

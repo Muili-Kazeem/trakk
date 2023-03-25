@@ -10,7 +10,7 @@ export class Timer {
 
   constructor() {}
 
-  public start() {
+  public startTiming() {
     if(!this.startTime) {
       this.startTime = DateTime.now();
     } else {
@@ -30,14 +30,14 @@ export class Timer {
     });
   }
 
-  public pause() {
+  public pauseTiming() {
     const now = DateTime.now();
     const diff = now.diff(this.startTime, 'milliseconds')
     this.pauseDuration = diff.toMillis();
     this.destroy$.next();
   }
 
-  public restart() {
+  public restartTiming() {
     this.destroy$.next();
     this.milliseconds = 0;
     this.startTime = null;
@@ -50,7 +50,7 @@ export class Timer {
 
   public getTimeFormatted() {
     const duration = Duration.fromMillis(this.milliseconds);
-    return duration.toFormat("mm:ss:SS");
+    return duration.toFormat("hh:mm:ss");
   }
 
 }

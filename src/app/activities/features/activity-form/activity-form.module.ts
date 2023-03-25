@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivityFormComponent } from './activity-form.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { PrimeNgModule } from 'src/app/shared/ui/prime-ng/prime-ng.module';
 
 
@@ -13,7 +13,7 @@ import { PrimeNgModule } from 'src/app/shared/ui/prime-ng/prime-ng.module';
   ],
   imports: [
     CommonModule,
-    FormsModule,
+    ReactiveFormsModule,
     PrimeNgModule,
     RouterModule.forChild([
       {

@@ -4,16 +4,15 @@
     <div class="form-container w-full xl:w-6 mx-auto">
       <h2 class="text-2xl my-2 lg:my-3 font-bold">Choose your activity and get started</h2>
 
-      <form #activityForm="ngForm" class="py-3" (ngSubmit)="onSubmit(activityForm)">
+      <form class="py-3" (ngSubmit)="onSubmit()" [formGroup]="activityForm">
         <div class="field field-wrapper">
           <label for="athlete" class="block labelling">Athlete</label>
           <input
+            formControlName="athlete"
             id="athlete"
-            type="username"
-            name="athlete"
+            type="text"
             placeholder="Ustain Zolt"
-            pInputText class="p-3 border-round-lg lg:border-round-2xl lg:w-7"
-            [(ngModel)]="activityData.athlete" />
+            pInputText class="p-3 border-round-lg lg:border-round-2xl lg:w-7"/>
         </div>
 
         <div class="lg:flex align-items-center gap-5">
@@ -22,8 +21,7 @@
             <p-autoComplete
               class="border-round-2xl"
               id="activity"
-              name="activity"
-              [(ngModel)]="activityData.activity"
+              formControlName="activity"
               [suggestions]="filteredActivities"
               (completeMethod)="filterActivity($event)"
               [dropdown]="true">
@@ -39,8 +37,7 @@
               id="title"
               type="text" pInputText
               class="p-3 border-round-lg lg:border-round-2xl w-full"
-              name="title"
-              [(ngModel)]="activityData.title" />
+              formControlName="title" />
           </div>
         </div>
 
@@ -50,13 +47,16 @@
             id="description"
             class="p-2 lg:p-3 border-round-lg lg:border-round-2xl w-full"
             rows="5"
-            name="description"
-            pInputTextarea [autoResize]="true"
-            [(ngModel)]="activityData.description" >
+            formControlName="description"
+            pInputTextarea [autoResize]="true" >
           </textarea>
         </div>
 
-        <button pButton pRipple type="submit" label="Let's Go" class="text-base lg:text-xl px-5 lg:px-8 lg:py-3 border-round-xl">
+        <button pButton pRipple
+          type="submit"
+          label="{{ activityForm.valid ? 'Let\'s go' : 'Fill the name at least' }}"
+          class="text-base lg:text-xl px-5 lg:px-8 lg:py-3 border-round-xl"
+          [disabled]="!activityForm.valid">
           <fa-icon class="mr-2" [icon]="faStart"></fa-icon>
         </button>
       </form>
