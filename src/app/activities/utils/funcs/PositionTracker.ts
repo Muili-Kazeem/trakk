@@ -1,17 +1,7 @@
-interface Position {
-  lng: number;
-  lat: number;
-  spd: number | null;
-  alt: number | null;
-}
-
-interface GeoJson {
-  type: string;
-  coordinates: number[][];
-}
+import { IGeoJson, IPosition } from "../models/i-geojson";
 
 export class PositionTracker {
-  private positions: Position[] = [];
+  private positions: IPosition[] = [];
   private watchid: number | null = null;
   private startingPosition!: number[];
   private accumulatedDistances: number[] = [];
@@ -38,7 +28,7 @@ export class PositionTracker {
     return d;
   }
 
-  private distanceCalculating() {
+  private accumulatePointDistances() {
     this.positions.forEach((val, index, all) => {
       this.accumulatedDistances.push(this.calculateDistanceFromLatLonInKm(all[index + 1]?.lat, all[index + 1]?.lng, val?.lat, val?.lng))
     });
@@ -59,9 +49,9 @@ export class PositionTracker {
 
     this.watchid = navigator.geolocation.watchPosition(
       ({coords: { latitude: lat, longitude: lng, speed: spd, altitude: alt,  }}) =>   {
-        const currentPosition: Position = { lat, lng, spd, alt };
+        const currentPosition: IPosition = { lat, lng, spd, alt };
         this.positions.push(currentPosition);
-        this.distanceCalculating();
+        this.accumulatePointDistances();
         this.getTotalDistance();
       },
       error => {
@@ -98,10 +88,19 @@ export class PositionTracker {
     return this.startingPosition
   }
 
-  public getGeoJSON(): GeoJson {
+  public getGeoJSON(): IGeoJson {
     return {
-      type: "LineString",
-      coordinates: this.positions.map(({lng, lat}) => [lng, lat])
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "LineString",
+            coordinates: this.positions.map(({lng, lat}) => [lng, lat])
+          }
+        }
+      ]
     };
   }
 

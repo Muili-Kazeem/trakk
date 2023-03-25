@@ -52,11 +52,12 @@ export class ActivityOnComponent implements OnInit, OnDestroy {
     this.state.emitPageTitle(this.route.snapshot?.data["pageTitle"]);
   }
 
+  // Toggle metrics pane visibility
   toggleMetricsPane() {
     this.displayMetricsPane = !this.displayMetricsPane;
   }
 
-  // DISPLAY MAP POP-UP IN MOBILE
+  // Display realtime map activity tracks in dialog on mobile
   showMap() {
     this.ref = this.dialogService.open(ActiveActivityMapComponent, {
         width: '80%',
@@ -65,10 +66,6 @@ export class ActivityOnComponent implements OnInit, OnDestroy {
         baseZIndex: 10000,
         maximizable: true
     });
-  }
-
-  leave() {
-    this.router.navigate(["/activities/stat"]);
   }
 
   start() {
@@ -102,7 +99,6 @@ export class ActivityOnComponent implements OnInit, OnDestroy {
       this.finish()
 
       let activityData: IActivity = {
-        activityId: this.activityId,
         duration: this.timer.getTime(),
         category: this.activityCategory,
         date: DateTime.local().toUTC().toISO(),

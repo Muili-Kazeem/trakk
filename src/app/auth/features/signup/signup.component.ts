@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../data-access/auth.service';
 
 @Component({
@@ -15,18 +15,20 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
-      email: '',
-      password: '',
+      email: ['', Validators.required],
+      password: ['', Validators.required],
     })
   }
 
   onSignup() {
     let {valid, value} = this.signupForm;
     let {email, password} = value;
-    console.log(valid, value);
 
-    this.authService.signup(email, password)
+    if (valid) {
+      console.log(valid, value);
+      this.authService.signup(email, password)
       .then(res => { console.log(res)})
       .catch(err => { console.log(JSON.stringify(err.message))})
+    }
   }
 }

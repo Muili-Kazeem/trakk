@@ -66,13 +66,15 @@ export class MapService {
     });
   }
 
+
+  // ANIMATE LINE
   lineAnimate() {
-    this.map.on('load', async () => {
+    this.map.on('load', () => {
       const coordinates = MushinGeo.features[0].geometry.coordinates;
-      console.log(coordinates)
+
       // start by showing just the first coordinate
       MushinGeo.features[0].geometry.coordinates = [coordinates[0]];
-      console.log(MushinGeo)
+
       // add it to the map
       this.map.addSource('trace', { type: 'geojson', data: MushinGeo });
       this.map.addLayer({
@@ -90,16 +92,17 @@ export class MapService {
       this.map.jumpTo({ 'center': coordinates[0], 'zoom': 14 });
       this.map.setPitch(30);
 
+      // start animating
       let i = 0;
       const timer = setInterval(() => {
-      if (i < coordinates.length) {
-        MushinGeo.features[0].geometry.coordinates.push(coordinates[i]);
-        this.map.getSource('trace').setData(MushinGeo);
-        this.map.panTo(coordinates[i]);
-        i++;
-      } else {
-        window.clearInterval(timer);
-      }
+        if (i < coordinates.length) {
+          MushinGeo.features[0].geometry.coordinates.push(coordinates[i]);
+          this.map.getSource('trace').setData(MushinGeo);
+          this.map.panTo(coordinates[i]);
+          i++;
+        } else {
+          window.clearInterval(timer);
+        }
       }, 1000)
     })
   }

@@ -12,7 +12,7 @@
 
 <div class="overview flex h-auto lg:h-screen lg:relative">
   <div class="map-wrapper flex-auto hidden lg:block">
-    <app-active-activity-map></app-active-activity-map>
+    <app-active-activity-map [geoJson]="this.tracker.getGeoJSON()"></app-active-activity-map>
   </div>
 
   <small (click)="toggleMetricsPane()"
