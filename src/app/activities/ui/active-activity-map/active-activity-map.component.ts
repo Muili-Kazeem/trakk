@@ -19,6 +19,7 @@ export class ActiveActivityMapComponent implements AfterViewInit {
   map: any;
 
   ngAfterViewInit(): void {
+    // delete this later
     // initialize map
     this.map = new mapboxgl.Map({
       container: 'active-map',
