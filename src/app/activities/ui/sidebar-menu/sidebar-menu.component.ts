@@ -1,11 +1,7 @@
-import { Component } from '@angular/core';
-import { faChartPie } from '@fortawesome/free-solid-svg-icons';
-import { faBolt } from '@fortawesome/free-solid-svg-icons';
-import { faPersonWalking } from '@fortawesome/free-solid-svg-icons';
-import { faChartSimple } from '@fortawesome/free-solid-svg-icons';
-import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { iconSelect } from '../../utils/funcs/iconSelect';
+import { AuthService } from 'src/app/auth/data-access/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -13,11 +9,24 @@ import { faSignOut } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./sidebar-menu.component.scss']
 })
 export class SidebarMenuComponent {
-  faOverview = faChartPie;
-  faStart = faBolt;
-  faActivity = faPersonWalking;
-  faStats = faChartSimple;
-  faSettings = faSlidersH;
-  faUser = faUser;
-  faLogOut = faSignOut;
+  constructor(private authService: AuthService, private router: Router) {}
+
+  icon(category: string) {
+    return iconSelect(category)
+  }
+
+  @Output() display: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  switchDisplay() {
+    this.display.emit(false)
+  }
+
+  logout() {
+    this.authService.logout().then(val => {
+      this.switchDisplay()
+      // A modal confirmation
+      this.router.navigate(["/auth"]);
+    })
+  }
+
 }

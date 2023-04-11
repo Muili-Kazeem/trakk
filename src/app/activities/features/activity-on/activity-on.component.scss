@@ -1,18 +1,18 @@
 @import 'primeflex/primeflex.scss';
 
 .bordering {
-  @include styleclass('border-1 border-300 border-round-2xl');
+  @include styleclass('border-1 border-blue-500 border-round-2xl');
 }
 
 .metrics-wrapper {
   right: 30px;
   top: 50%;
   transform: translateY(-50%);
-  height: 90%;
+  height: max-content;
   width: 25%;
   min-width: 400px;
 
-  @media (max-width: 1200px) {
+  @media (max-width: 960px) {
     transform: translateY(0);
     width: 100%;
     min-width: 100%;
@@ -23,4 +23,11 @@
 .detail-toggle-btn {
   left: 30px;
   top: 50px;
+}
+
+:host ::ng-deep .p-toast-message {
+  box-shadow: none;
+  border: solid white 2px;
+  background: rgba(0, 0, 0, 0.864);
+  // color: linear-gradient(rgb(60, 1, 60), rgb(2, 221, 255));
 }

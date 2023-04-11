@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { faBolt, faClock, faRoad, faRunning, faWind } from '@fortawesome/free-solid-svg-icons';
-import { ActivitiesDataService } from '../../data-access/activities-data.service';
-import { IActivity } from '../../utils/models/iactivity';
-import { EMPTY, catchError, combineLatest, delay, map } from 'rxjs';
-import { recentSorting } from "../../utils/funcs/recentSorting"
-import { StateService } from '../../data-access/state.service';
-import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, catchError, combineLatest, delay, map, of, startWith } from 'rxjs';
+
+import { ActivitiesDataService } from '../../data-access/activities-data.service';
+import { StateService } from '../../data-access/state.service';
+import { IActivity, ICategorizedActivity } from '../../utils/models/iactivity';
+import { IRequestState } from '../../utils/models/iRequestState';
+import { recentSorting } from "../../utils/funcs/recentSorting";
 
 @Component({
   selector: 'app-activities-home',
@@ -14,60 +14,40 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./activities-home.component.scss']
 })
 export class ActivitiesHomeComponent implements OnInit{
-
-  faRun = faRunning;
-  faStart = faBolt;
-  faClock = faClock;
-  faSpeed = faWind;
-  faRoad = faRoad;
-  faNotification = faBell;
-
-  pageTitle!: string;
-  search: string = '';
-
-  constructor(private activitiesService: ActivitiesDataService,
-              private state: StateService,
-              private route: ActivatedRoute) { }
-
-  ngOnInit(): void {
-    this.state.emitPageTitle(this.route.snapshot.data["pageTitle"])
-    // this.activitiesService.allCategorizedActivities.subscribe(all => console.log(all))
-  }
+  constructor(private activitiesService: ActivitiesDataService, private state: StateService, private route: ActivatedRoute) {};
+  ngOnInit(): void { this.state.emitPageTitle(this.route.snapshot.data["pageTitle"]) }
 
   errorMessage!: any;
-
-  previewActivity$ = this.state.showcasePreview$.pipe(delay(300))
-
-  allCategorizedActivities$ = this.activitiesService.allCategorizedActivities$.pipe(
+  allCategorizedActivities$: Observable<IRequestState<ICategorizedActivity[]>> = this.activitiesService.allCategorizedActivities$.pipe(
+    map((value) => ({isLoading: false, value})),
     catchError(err => {
-      this.errorMessage = err;
-      return EMPTY
-    })
+      // this.errorMessage = err;
+      return of({isLoading: false, err})
+    }),
+    startWith({isLoading: true})
   );
 
   allActivities$ = this.allCategorizedActivities$.pipe(
-    map(activities => {
-      return activities.reduce((acc, category) => {
+    map(({value}) => {
+      return value?.reduce((acc, category) => {
         acc.push(category.activities)
         return acc;
       }, [] as IActivity[][])
-    }),
-    // tap(all => console.log(all))
+    })
   );
 
   allActivitiesCategories$ = this.allCategorizedActivities$.pipe(
-    map(activities => {
-      return activities.reduce((acc, category) => {
+    map(({value}) => {
+      return value?.reduce((acc, category) => {
         acc.push(category.category)
         return acc;
       }, [] as string[])
-    }),
-    // tap(all => console.log(all))
+    })
   );
 
   allReducedActivities$ = combineLatest([this.allActivitiesCategories$, this.allActivities$]).pipe(
     map(([categories, activities]) => {
-      return activities.reduce((acc: {category: string, distance: number, duration: number, length: number}[], activity, i, activities) => {
+      return activities?.reduce((acc: {category: string, distance: number, duration: number, length: number}[], activity, i, activities) => {
         let distance = activities[i].reduce((acc, activity) => {
           acc += activity.distance
           return acc;
@@ -77,7 +57,7 @@ export class ActivitiesHomeComponent implements OnInit{
           return acc;
         }, 0 as number);
         let length = activity.length
-        acc.push({ category: categories[i], distance, duration, length })
+        acc.push({ category: categories![i], distance, duration, length })
         return acc;
       }, [] as {category: string, distance: number, duration: number, length: number}[])
     }),
@@ -85,11 +65,11 @@ export class ActivitiesHomeComponent implements OnInit{
   )
 
   allRecentActivities$ = this.allActivities$.pipe(
-    map( allActivitiesArrays => allActivitiesArrays.flatMap(activitiesArray => activitiesArray)),
-    map( allFlattenedActivities => allFlattenedActivities.sort((a, b) => recentSorting(a, b) )),
+    map( allActivitiesArrays => allActivitiesArrays?.flatMap(activitiesArray => activitiesArray)),
+    map( allFlattenedActivities => allFlattenedActivities?.sort((a, b) => recentSorting(a, b) )),
     map(allRecentActivities => {
-      let length = allRecentActivities.length > 3 ? 3 : allRecentActivities.length
-      return allRecentActivities.slice(0, length)
+      let length = allRecentActivities?.length;
+      return allRecentActivities?.slice(0, length! > 3 ? 3 : allRecentActivities?.length)
     })
   )
 

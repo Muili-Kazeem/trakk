@@ -1,95 +1,96 @@
-<div class="dashboard-layout h-full p-1">
-  <div class="activity-dashboard flex flex-column xl:flex-row gap-4 h-full p-3 mx-auto"
-       *ngIf="allCategorizedActivities$; else noActivities">
-
-    <div class="left-stat flex flex-column w-full gap-4">
-      <div class="stat-top gap-4 flex flex-column xl:flex-row flex-order-2 xl:flex-order-1">
-        <div class="preview hidden xl:inline-flex bordering">
+<ng-container *ngIf="allCategorizedActivities$ | async as data">
+  <div class="dashboard-layout h-full p-1">
+    <div class="activity-dashboard flex flex-column xl:flex-row gap-4 lg:gap-3 h-full p-3 mx-auto" *ngIf="data.value?.length">
+      <div class="left-dash flex flex-column gap-4 lg:gap-3 flex-order-2 lg:flex-order-1">
+        <div class="stat-top flex justify-content-center align-items-center p-2 lg:p-3 bordering">
+          <div class="w-full">
+            <div class="justify-content-between align-items-center flex mb-2 lg:mb-3 lg:mt-2 lg:ml-3">
+              <h3 class="text-2xl lg:text-xl">Top activities</h3>
+              <a href="#" pRipple class="hidden lg:inline-flex text-xs lg:text-xs lg:mr-3 p-2 bg-blue-50 border-round-xl text-900">See all</a>
+            </div>
+            <div class="top-activities flex flex-column sm:flex-row flex-wrap gap-2 lg:gap-3">
+              <app-top-activity-card pRipple
+                *ngFor="let reducedActivity of allReducedActivities$ | async as allReducedActivities"
+                [routerLink]="[reducedActivity.category]"
+                [activity]="reducedActivity"
+                [numOfActivity]="reducedActivity.length">
+              </app-top-activity-card>
+            </div>
+          </div>
         </div>
-        <div class="graph flex justify-content-center align-items-center bordering">
-          <app-graph-card class="w-full" [categorizedActivities]="allCategorizedActivities$"></app-graph-card>
+        <div class="recent-bottom p-2 lg:p-3 xl:overflow-y-auto bordering">
+          <div class="justify-content-between align-items-center flex mb-2 lg:mb-3 lg:mt-2 lg:ml-3">
+            <h3 class="text-2xl lg:text-xl">Recent activities</h3>
+            <a href="#" pRipple class="hidden lg:inline-flex text-xs lg:text-xs lg:mr-3 p-2 bg-blue-50 border-round-xl text-900">See all</a>
+          </div>
+          <div class="recent-activities flex flex-column gap-2">
+            <ng-container *ngIf="allRecentActivities$ | async as allRecentActivities">
+              <app-recent-activity-card pRipple
+                [routerLink]="[recentActivity.category, recentActivity.activityId]"
+                *ngFor="let recentActivity of allRecentActivities"
+                [activity]="recentActivity">
+              </app-recent-activity-card>
+            </ng-container>
+          </div>
         </div>
       </div>
 
-      <div class="stat-bottom p-2 lg:p-4 flex-order-1 xl:flex-order-2 xl:overflow-y-auto bordering">
-        <h3 class="mb-2 lg:mb-4 text-xl lg:text-2xl">Top activities</h3>
-        <div class="top-activities flex flex-column sm:flex-row flex-wrap gap-2 lg:gap-3">
-          <app-top-activity-card pRipple
-            *ngFor="let reducedActivity of allReducedActivities$ | async as allReducedActivities"
-            [routerLink]="[reducedActivity.category]"
-            [activity]="reducedActivity"
-            [numOfActivity]="reducedActivity.length">
-          </app-top-activity-card>
+      <div class="right-dash flex flex-column gap-4 lg:gap-3 h-full flex-order-1 lg:flex-order-2">
+        <div class="new-activity flex-0 bordering overflow-auto">
+          <app-new-activity-prop></app-new-activity-prop>
+        </div>
+        <div class="graph flex-1 bordering">
+          <app-graph-card class="w-full" [categorizedActivities]="data.value!"></app-graph-card>
         </div>
       </div>
     </div>
 
-    <div class="right-recent border-round-xl gap-1 lg:gap-4 flex flex-column h-full">
-      <div class="preview flex-auto p-4 bordering hidden xl:block">
-        <ng-container *ngIf="previewActivity$ | async as previewActivity">
-          <app-recent-activity-card [activity]="previewActivity">
-          </app-recent-activity-card>
-        </ng-container>
-      </div>
 
-      <div class="recent flex flex-column flex-auto p-2 lg:p-4  bordering">
-        <h3 class="mb-2 lg:mb-3 text-xl lg:text-2xl">Recent activities</h3>
-        <div class="recent-activities flex flex-column sm:flex-row flex-wrap gap-2 lg:gap-3">
-          <ng-container *ngIf="allRecentActivities$ | async as allRecentActivities">
-            <app-recent-activity-card pRipple
-              [routerLink]="[recentActivity.category, recentActivity.activityId]"
-              *ngFor="let recentActivity of allRecentActivities"
-              [activity]="recentActivity">
-            </app-recent-activity-card>
-          </ng-container>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-  <!-- SKELETON MOCK-UP -->
-  <ng-template #noActivities>
-    <div class="activity-dashboard flex flex-column xl:flex-row gap-4 h-full p-3 mx-auto">
-      <div class="left-stat flex flex-column w-full gap-4">
-        <div class="stat-top gap-4 flex flex-column xl:flex-row flex-order-2 xl:flex-order-1">
-          <div class="preview hidden xl:inline bordering p-0 lg:p-4">
-            <p-skeleton height="100%" borderRadius="16px"></p-skeleton>
-          </div>
-          <div class="graph p-1 lg:p-4 bordering">
-            <p-skeleton height="15rem" borderRadius="16px"></p-skeleton>
+    <!-- SKELETON MOCK-UP -->
+    <div class="activity-dashboard flex flex-column xl:flex-row gap-3 h-full p-3 mx-auto" *ngIf="data.isLoading">
+      <div class="left-dash flex flex-column gap-4 lg:gap-3 flex-order-2 lg:flex-order-1">
+        <div class="stat-top flex flex-column justify-content-end py-0 lg:py-4 p-3 bordering">
+          <h3 class="text-2xl text-xl">Top activities</h3>
+          <div class="top-activities mt-1 lg:mt-4">
+            <div class="lg:hidden w-full">
+              <p-skeleton height="4rem" borderRadius="16px" styleClass="my-2"></p-skeleton>
+              <p-skeleton height="4rem" borderRadius="16px" styleClass="my-2"></p-skeleton>
+              <p-skeleton height="4rem" borderRadius="16px" styleClass="my-2"></p-skeleton>
+            </div>
+            <div class="flex flex-wrap gap-2 justify-content-between w-full">
+              <p-skeleton height="7rem" borderRadius="16px" width="11rem" styleClass="hidden lg:inline-flex"></p-skeleton>
+              <p-skeleton height="7rem" borderRadius="16px" width="11rem" styleClass="hidden lg:inline-flex"></p-skeleton>
+              <p-skeleton height="7rem" borderRadius="16px" width="11rem" styleClass="hidden lg:inline-flex"></p-skeleton>
+            </div>
           </div>
         </div>
-        <div class="stat-bottom p-2 lg:p-4 flex-order-1 xl:flex-order-2 xl:overflow-y-auto bordering">
-          <h3 class="mb-2 lg:my-3 text-xl lg:text-2xl">Top activities</h3>
-          <div class="mt-4 xl:hidden">
-            <p-skeleton height="4rem" borderRadius="16px" styleClass="my-3"></p-skeleton>
-            <p-skeleton height="4rem" borderRadius="16px" styleClass="my-3"></p-skeleton>
-            <p-skeleton height="4rem" borderRadius="16px" styleClass="my-3"></p-skeleton>
-          </div>
-          <div class="flex flex-wrap gap-2 mt-4 justify-content-center">
-            <p-skeleton height="7rem" borderRadius="16px" width="14rem" styleClass="hidden lg:inline-flex"></p-skeleton>
-            <p-skeleton height="7rem" borderRadius="16px" width="14rem" styleClass="hidden lg:inline-flex"></p-skeleton>
-            <p-skeleton height="7rem" borderRadius="16px" width="14rem" styleClass="hidden lg:inline-flex"></p-skeleton>
+        <div class="recent-bottom py-0 lg:pt-4 p-3 xl:overflow-y-auto flex-column bordering">
+          <h3 class="text-2xl lg:text-xl">Recent activities</h3>
+          <div class="recent-activities flex flex-column gap-2 mt-2 lg:mt-4">
+            <p-skeleton height="3rem" borderRadius="16px"></p-skeleton>
+            <p-skeleton height="3rem" borderRadius="16px"></p-skeleton>
+            <p-skeleton height="3rem" borderRadius="16px"></p-skeleton>
           </div>
         </div>
       </div>
 
-      <div class="right-recent border-round-xl gap-1 lg:gap-4 flex flex-column h-full">
-        <div class="preview flex-auto p-4 bordering hidden xl:block">
+      <div class="right-dash flex flex-column gap-4 lg:gap-3 h-full flex-order-1 lg:flex-order-2 mb-4">
+        <div class="new-activity flex-0 p-3 lg:py-3 py-0 bordering overflow-auto">
           <p-skeleton height="10rem" borderRadius="16px"></p-skeleton>
         </div>
-        <div class="recent flex flex-column flex-auto p-2 lg:p-4  bordering">
-          <h3 class="mb-2 lg:my-3 text-xl lg:text-2xl">Recent activities</h3>
-          <div class="recent-activities flex flex-column flex-wrap gap-2 lg:gap-3">
-            <p-skeleton height="4rem" borderRadius="16px"></p-skeleton>
-            <p-skeleton height="4rem" borderRadius="16px"></p-skeleton>
-            <p-skeleton height="4rem" borderRadius="16px"></p-skeleton>
-            <p-skeleton height="4rem" borderRadius="16px"></p-skeleton>
-          </div>
+        <div class="graph flex-1 px-3 lg:py-3 py-0 bordering">
+          <p-skeleton styleClass="lg:h-full h-15rem" borderRadius="16px"></p-skeleton>
         </div>
       </div>
     </div>
-  </ng-template>
-</div>
+
+    <!-- Error template -->
+    <div *ngIf="data.error">
+      <h2>{{ data.error }}</h2>
+    </div>
+
+    <div class="activity-dashboard flex flex-column justify-content-center align-items-center h-full p-3"  *ngIf="(data.value?.length == 0)">
+      <app-new-activity-prop></app-new-activity-prop>
+    </div>
+  </div>
+</ng-container>

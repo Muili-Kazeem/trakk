@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LoginGuard } from './activities/data-access/guards/login.guard';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'activities',
+    canActivate: [LoginGuard],
     loadChildren: () =>
       import("./activities/features/activities-shell/activities-shell.module").then(
         (m) => m.ActivitiesShellModule

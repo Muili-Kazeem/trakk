@@ -1,3 +1,5 @@
+import { IGeoJson } from "./i-geojson";
+
 export interface IActivity {
   activityId?: number | string;
   category: string;
@@ -5,20 +7,20 @@ export interface IActivity {
   description?: string;
   athlete?: string;
   date: Date;
-  starting: {
-    coords: number[];
+  starting?: {
+    coords?: number[];
     name?: string;
     timeStamp: Date;
   };
-  stopping: {
-    coords: number[];
+  stopping?: {
+    coords?: number[];
     name?: string;
     timeStamp: Date;
   };
   distance: number;
   duration: number;
   maxSpeed?: number;
-  navigatingCoords: object;
+  navigatingCoords?: string;
   favourite?: boolean;
   deleted?: boolean;
   searchKey?: string[];

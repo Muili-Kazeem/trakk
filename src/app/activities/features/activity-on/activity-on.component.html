@@ -1,77 +1,79 @@
-<p-toast position="top-center" key="gps" [baseZIndex]="5000" >
-  <!-- <ng-template let-message pTemplate="message">
-    <div class="bg-white" style="flex: 1">
-      <h4 class="text-center">{{message.detail}}</h4>
-    </div>
-  </ng-template> -->
+<p-toast position="top-center" key="gps" [breakpoints]="{'1800px': {width: 'max-content', margin: 'auto', top: '50px'}}" >
+  <ng-template let-message pTemplate="message">
+    <h4 class="text-xs font-normal text-white text-center mx-2">{{message.detail}}</h4>
+  </ng-template>
 </p-toast>
 
-<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
-</p-confirmDialog>
+<p-toast position="center" key="distance" [breakpoints]="{'1800px': {width: 'max-content'}}">
+  <ng-template let-message pTemplate="message">
+    <div class="text-xs font-normal text-white text-center mx-2">
+      <h4 class="font-medium text-sm">{{message.summary}}</h4>
+      <p class="text-200">{{message.detail}}</p>
+    </div>
+  </ng-template>
+</p-toast>
 
 
-<div class="overview flex h-auto lg:h-screen lg:relative">
-  <div class="map-wrapper flex-auto hidden lg:block">
-    <app-active-activity-map [geoJson]="this.tracker.getGeoJSON()"></app-active-activity-map>
-  </div>
+<div class="overview flex flex-column h-auto lg:h-screen lg:relative">
+  <div #map class="map-wrapper flex-auto h-30rem lg:block bordering lg:h-full w-full flex-order-2 my-6 lg:m-0" id="activeMap"> </div>
 
   <small (click)="toggleMetricsPane()"
-    class="detail-toggle-btn absolute surface-50 p-3 border-round-md hidden lg:block pointer">
-    <fa-icon class="text-lg" [icon]="faMenu"></fa-icon>
+  class="detail-toggle-btn absolute surface-50 p-3 border-round-md hidden lg:block pointer">
+    <fa-icon class="text-lg" [icon]="icon('menuBar')"></fa-icon>
   </small>
 
   <div *ngIf="displayMetricsPane"
-    class="metrics-wrapper flex flex-column align-items-center py-4 gap-2 border-round-lg lg:absolute">
-    <span class="flex gap-2 my-3 align-items-center text-xl font-medium p-2 px-4 bg-primary-50 border-round-3xl">
-      <fa-icon class="" [icon]="faRun"></fa-icon>
-      <p>Running</p>
+  class="metrics-wrapper flex flex-auto flex-column my-3 lg:m-0 align-items-center py-5 gap-2 flex-order-1 border-round-lg lg:absolute bg-white">
+    <span class="flex gap-2 align-items-center text-xl lg:text-base font-medium p-2 px-4 bg-primary-50 border-round-3xl">
+      <fa-icon class="" [icon]="icon(activityCategory)"></fa-icon>
+      <p>{{ activityCategory }}</p>
     </span>
 
-    <small class="my-4"><fa-icon class="text-7xl lg:text-8xl" [icon]="faSpeed"></fa-icon></small>
+    <small class="my-4"><fa-icon class="text-7xl" [icon]="icon('light')"></fa-icon></small>
 
     <div class="text-center">
-      <fa-icon [icon]="faRoad"></fa-icon>
-      <h3 class="text-6xl lg:text-7xl">{{ tracker.getDistance() }}</h3>
-      <p class="text-lg font-bold">kilometer</p>
+      <fa-icon [icon]="icon('distance')"></fa-icon>
+      <h3 class="text-5xl">{{ tracker.getDistance() }}</h3>
+      <p class="text-md font-bold text-700">kilometer</p>
     </div>
 
-    <div class="bg-primary-50 mt-4 text-xl p-3 border-round-3xl lg:hidden" (click)="showMap()">
-      <fa-icon class="mx-2" [icon]="faMap"></fa-icon>
-    </div>
+    <a class="bg-primary-50 mt-4 text-xl p-3 border-round-3xl lg:hidden"  (click)="scrollToMap()">
+      <fa-icon class="mx-2" [icon]="icon('location')"></fa-icon>
+    </a>
 
-    <div class="flex gap-5 lg:my-5 my-3 text-lg text-primary-900 bg-primary-50 py-4 w-full justify-content-center text-0 align-items-center font-semibold">
+    <div class="flex gap-5 my-4 text-lg text-primary-900 bg-primary-50 py-3 w-full justify-content-center text-0 align-items-center font-semibold">
       <span class="flex align-items-center">
-        <fa-icon class="mx-2 text-xl" [icon]="faTime"></fa-icon>
-        <span class="text-2xl lg:text-3xl">{{ timer.getTimeFormatted() }}</span>
+        <fa-icon class="mx-2" [icon]="icon('time')"></fa-icon>
+        <span class="text-2xl lg:text-xl">{{ timer.getTimeFormatted() }}</span>
       </span>
-      <!-- <span class="flex align-items-center">
-        <fa-icon class="mx-2 text-xl" [icon]="faRun"></fa-icon>
-        <span class="text-2xl lg:text-3xl">34km/h</span>
-      </span> -->
+
+      <span class="flex align-items-center">
+        <fa-icon class="mx-2" [icon]="icon('speed')"></fa-icon>
+        <span class="text-2xl lg:text-xl">{{ (tracker.getSpeed() ? tracker.getSpeed() : 0.00) }}</span>
+      </span>
     </div>
 
-    <div class="flex justify-content-center gap-4 my-2 lg:my-3">
+    <div class="flex justify-content-center gap-4 my-2">
       <button pButton pRipple type="button"
               label="Start" (click)="start()"
               *ngIf="!(started && ongoing)"
-              class="p-button-rounded p-3 px-6 text-md lg:text-xl">
+              class="p-button-rounded p-3 px-6 text-base">
       </button>
       <button pButton pRipple type="button"
               label="Pause" (click)="pause()"
               *ngIf="(started && ongoing && !paused)"
-              class="p-button-rounded p-3 px-6 text-md lg:text-xl">
+              class="p-button-rounded p-3 px-6 text-base">
       </button>
       <button pButton pRipple type="button"
               label="Resume" (click)="start()"
               *ngIf="(started && ongoing && paused)"
-              class="p-button-rounded p-3 px-6 text-md lg:text-xl">
+              class="p-button-rounded p-3 px-6 text-base">
       </button>
       <button pButton pRipple type="button"
               label="Finish" (click)="post()"
               *ngIf="(ongoing&& paused)"
-              class="p-button-rounded p-3 px-6 text-md lg:text-xl">
+              class="p-button-rounded p-3 px-6 text-base">
       </button>
     </div>
-
   </div>
 </div>

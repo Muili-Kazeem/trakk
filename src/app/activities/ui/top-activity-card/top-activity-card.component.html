@@ -1,15 +1,14 @@
 <div class="top-activity-card lg:border-round-3xl
     flex align-items-center justify-content-between lg:justify-content-center lg:align-items-start
     transition-all transition-duration-400
-    p-4 lg:gap-4 bg-blue-50 border-hover bordering" *ngIf="activity">
+    p-3 px-4 lg:p-4 gap-3 bg-blue-50 border-hover bordering" *ngIf="activity">
     <div class="flex flex-column align-self-end text-sm font-bold">
-      <!-- Create a custome pipe for activity/activities labelling -->
-      <span class="font-semibold"> {{ numOfActivity | activityFormating }} </span>
-      <span class="text-xl lg:text-2xl mt-1">{{ activity.category }}</span>
-      <!-- <div class="flex gap-2 text-xs">
-        <span>{{activity.distance}}km </span>
+      <span class="text-xl lg:text-lg">{{ activity.category }}</span>
+      <span class="font-semibold text-xs mb-2"> ({{ numOfActivity | activityFormating }})</span>
+      <!-- <div class="flex gap-1 text-700 text-xs font-medium">
+        <span class="px-2 py-1 bg-primary-100 border-round-3xl">{{activity.distance}}km </span>
         <span>{{ activity.duration }}min </span>
       </div> -->
     </div>
-    <small class="text-4xl lg:text-6xl"><fa-icon [icon]="faRun"></fa-icon></small>
+    <small class="text-4xl lg:text-5xl"><fa-icon [icon]="icon(activity.category)"></fa-icon></small>
 </div>

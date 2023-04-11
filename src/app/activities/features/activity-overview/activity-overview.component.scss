@@ -4,8 +4,12 @@
   @include styleclass('lg:border-1 border-300 border-round-2xl');
 }
 
+:host ::ng-deep .p-ripple .p-ink {
+  background: rgba(#1769aa, 0.7);
+}
+
 .activity-overview {
-  max-width: 1200px;
+  max-width: 960px;
 }
 
 .hero-wrapper {
@@ -13,20 +17,19 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  aspect-ratio: 14/5;
+}
 
-  @media (max-width: 1200px) {
+.hero-wrapper, .hero-wrapper-skeleton {
+  aspect-ratio: 3/1;
+
+  @media (max-width: 960px) {
     max-height: 400px;
-    aspect-ratio: 2/3;
+    aspect-ratio: 3/5;
   }
-
 }
 
 .recent-runs, .visualizations {
   flex: 1 1 auto;
-  // @media (max-width: 1200px) {
-  //   width: 100%;
-  // }
 }
 
 .start-btn {

@@ -1,45 +1,41 @@
+import { Subject } from "rxjs";
 import { IGeoJson, IPosition } from "../models/i-geojson";
+
+const resolvedGeoJsonSubject = new Subject<IGeoJson>()
+export const resolvedGeoJson$ = resolvedGeoJsonSubject.asObservable()
+
 
 export class PositionTracker {
   private positions: IPosition[] = [];
   private watchid: number | null = null;
   private startingPosition!: number[];
-  private accumulatedDistances: number[] = [];
-  private totalDistance: number = 0.00;
+  private stoppingPosition!: number[];
+  private totalDistance: number = 0;
+  private allSpeed: number[] = [];
   private errorMessage!: string;
 
-  // Calculate distance
-  private calculateDistanceFromLatLonInKm(lat1: number = 0, lon1: number = 0, lat2: number = 0, lon2: number = 0) {
+  // Calculate distance using the haversian formulae. Could equally use the turf.js library
+  // with the turf.distance(from, to, options) function to calculate the distance. Turf will replace this as the app gets complex
+  private calculateDistanceFromLatLonInKm(lat2: number, lon2: number, lat1: number, lon1: number) {
     function deg2rad(deg: number) {
       return deg * (Math.PI/180)
     }
 
-    var R = 6371; // Radius of the earth in km
-    if (lat1 || lon1 === 0) {
-      lat1 = lat2;
-      lon1 = lon2; }
-    var dLat = deg2rad(lat2-lat1);  // deg2rad below
-    var dLon = deg2rad(lon2-lon1);
-    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-            Math.sin(dLon/2) * Math.sin(dLon/2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    var d = R * c; // Distance in km
+    let R = 6371; // Radius of the earth in km
+    let dLat = deg2rad(lat2-lat1);  // deg2rad below
+    let dLon = deg2rad(lon2-lon1);
+    let a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    let d = R * c; // Distance in km
     return d;
   }
 
-  private accumulatePointDistances() {
-    this.positions.forEach((val, index, all) => {
-      this.accumulatedDistances.push(this.calculateDistanceFromLatLonInKm(all[index + 1]?.lat, all[index + 1]?.lng, val?.lat, val?.lng))
-    });
-    console.log(this.accumulatedDistances);
-  }
-
   private getTotalDistance() {
-    this.totalDistance = this.accumulatedDistances.reduce((acc, curr) => {
-      acc + curr
-      return acc
-    }, 0 as number);
+    this.totalDistance = 0;
+    let unit = 0;
+    for (let i = 0; i < (this.positions.length - 1); i++) {
+      this.totalDistance += this.calculateDistanceFromLatLonInKm(this.positions[i].lat, this.positions[i].lng, this.positions[i + 1].lat, this.positions[i + 1].lng )
+    }
   }
 
   public startTracking() {
@@ -47,24 +43,36 @@ export class PositionTracker {
       return;
     }
 
+    let fromCoords!: IPosition | null
+    let toCoords!: IPosition | null
+    let compareDist = 0
     this.watchid = navigator.geolocation.watchPosition(
-      ({coords: { latitude: lat, longitude: lng, speed: spd, altitude: alt,  }}) =>   {
-        const currentPosition: IPosition = { lat, lng, spd, alt };
-        this.positions.push(currentPosition);
-        this.accumulatePointDistances();
-        this.getTotalDistance();
+      ({coords: { latitude: lat, longitude: lng, speed: spd, altitude: alt  }}) => {
+        if(!fromCoords) {
+          fromCoords = { lat, lng, spd, alt }
+        } else {
+          toCoords = { lat, lng, spd, alt}
+          compareDist = this.calculateDistanceFromLatLonInKm(fromCoords.lat, fromCoords.lng, toCoords.lat, toCoords.lng)
+          if (compareDist >= 0.004000000000000) {
+            this.positions.push(fromCoords); this.positions.push(toCoords);
+            this.allSpeed.push(spd ? spd : 0);
+            this.getTotalDistance();
+            let insideGeoJSON = this.getGeoJSON();
+            resolvedGeoJsonSubject.next(insideGeoJSON);
+            fromCoords = null; toCoords = null
+          }
+        }
       },
       error => {
         this.errorMessage = `Error: ${error.message}`
-        console.log(this.errorMessage);
-        throw this.errorMessage;
+        console.log(this.errorMessage)
       },
       {
         enableHighAccuracy: true,
         timeout: 5000,
         maximumAge: 0
       }
-    );
+    )
   }
 
   public stopTracking() {
@@ -74,18 +82,18 @@ export class PositionTracker {
     }
   }
 
-  public positionStats() {
+  public getPositionStats() {
     return this.positions;
   }
 
   public getStartingPosition() {
-    this.startingPosition = [ this.positions[0]?.lat, this.positions[0]?.lng ]
-    return this.startingPosition
+    this.startingPosition = [ this.positions[0]?.lng, this.positions[0]?.lat ];
+    return this.startingPosition;
   }
 
   public getStoppingPosition() {
-    this.startingPosition = [ this.positions[-1]?.lat, this.positions[-1]?.lng ]
-    return this.startingPosition
+    this.stoppingPosition = [ this.positions[-1]?.lng, this.positions[-1]?.lat ];
+    return this.stoppingPosition;
   }
 
   public getGeoJSON(): IGeoJson {
@@ -104,11 +112,15 @@ export class PositionTracker {
     };
   }
 
+  public getSpeed() {
+    return (Math.round(this.allSpeed[-1] * 100)/100)
+  }
+
   public getWatchId() {
     return this.watchid;
   }
 
   public getDistance() {
-    return this.totalDistance;
+    return (Math.round(this.totalDistance * 100)/100)
   }
 }

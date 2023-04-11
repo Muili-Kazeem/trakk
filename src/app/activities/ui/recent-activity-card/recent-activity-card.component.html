@@ -1,14 +1,13 @@
 <ng-container *ngIf="activity">
-  <div class="recent-activity-card bg-blue-50 flex justify-content-between align-items-center gap-2 p-3
-    transition-all transition-duration-400 bordering border-hover"
-    (mouseover)="preview(activity)">
+  <div class="recent-activity-card flex justify-content-between align-items-center gap-2 px-2 py-3 lg:py-2 hover:bg-blue-50
+    transition-all transition-duration-400 bordering border-hover">
     <div class="flex align-items-center gap-2 w-full">
-      <small class="m-1 text-2xl"><fa-icon [icon]="faRun"></fa-icon></small>
+      <small class="m-1 text-2xl"><fa-icon [icon]="icon(activity.category)"></fa-icon></small>
       <div class="flex flex-column gap-1">
-        <small class="text-xs font-medium text-700"> {{ activity.date | localeDateFormating }} </small>
-        <span class="text-xl font-semibold font-bold">{{ activity.title }}</span>
+        <span class="text-lg lg:text-md font-semibold font-bold">{{ activity.title }}</span>
+        <small class="font-medium text-700 text-xs"> {{ activity.date | localeDateFormating }} </small>
       </div>
     </div>
-    <h3 class="text-xl font-bold ">{{ activity.distance }}<span class="text-base">km</span></h3>
+    <h3 class="text-lg font-bold ">{{ activity.distance }}<span class="text-base">km</span></h3>
   </div>
 </ng-container>

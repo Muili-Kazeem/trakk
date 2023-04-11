@@ -8,6 +8,7 @@ import { TopActivityCardComponent } from '../../ui/top-activity-card/top-activit
 import { RecentActivityCardComponent } from '../../ui/recent-activity-card/recent-activity-card.component';
 import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { FormsModule } from '@angular/forms';
+import { NewActivityPropComponent } from '../../ui/new-activity-prop/new-activity-prop.component';
 
 
 
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     ActivitiesHomeComponent,
     GraphCardComponent,
     TopActivityCardComponent,
-    RecentActivityCardComponent
+    RecentActivityCardComponent,
+    NewActivityPropComponent,
   ],
   imports: [
     CommonModule,

@@ -20,6 +20,8 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { PasswordModule } from 'primeng/password';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 
@@ -46,7 +48,9 @@ import { PasswordModule } from 'primeng/password';
     MessagesModule,
     MessageModule,
     ConfirmDialogModule,
-    PasswordModule
+    PasswordModule,
+    RadioButtonModule,
+    ProgressSpinnerModule,
   ],
   exports: [
     FontAwesomeModule,
@@ -68,7 +72,9 @@ import { PasswordModule } from 'primeng/password';
     MessagesModule,
     MessageModule,
     ConfirmDialogModule,
-    PasswordModule
+    PasswordModule,
+    RadioButtonModule,
+    ProgressSpinnerModule,
   ]
 })
 export class PrimeNgModule { }

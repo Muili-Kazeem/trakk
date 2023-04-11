@@ -5,7 +5,7 @@
 }
 
 .labelling {
-  @include styleclass('text-md');
+  @include styleclass('text-md lg:text-sm font-medium');
 }
 
 .field-wrapper {
@@ -13,19 +13,30 @@
 }
 
 .form-container {
-  width: 80%;
-  max-width: 600px;
+  width: 100%;
+  max-width: 500px;
 }
 
 :host ::ng-deep .p-password {
   width: 75%;
-  @media (max-width: 1200px) {
+  @media (max-width: 960px) {
     width: 100%;
   }
 }
 
 :host ::ng-deep .p-password input {
   padding: 1rem;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   width: 100%;
+  font-size: 0.875rem;
+  @media (max-width: 960px) {
+    font-size: initial;
+  }
+}
+
+:host ::ng-deep .p-toast-message {
+  box-shadow: none;
+  border: solid white 2px;
+  background: rgba(0, 0, 0, 0.864);
+  // color: linear-gradient(rgb(60, 1, 60), rgb(2, 221, 255));
 }

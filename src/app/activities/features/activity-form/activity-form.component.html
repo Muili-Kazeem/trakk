@@ -1,32 +1,43 @@
+<p-toast position="center" key="form-error" [breakpoints]="{'1800px': {width: 'max-content', margin: 'auto'}}" >
+  <ng-template let-message pTemplate="message">
+    <h4 class="text-xs font-normal text-red-600 text-center mx-2">{{message.detail}}</h4>
+  </ng-template>
+</p-toast>
+
 <div class="min-h-full px-3 lg:p-0">
 
-  <div class="form-layout min-h-full p-2 lg:p-3 flex gap-5 mx-auto">
+  <div class="form-layout min-h-full p-2 flex gap-5 mx-auto">
     <div class="form-container w-full xl:w-6 mx-auto">
-      <h2 class="text-2xl my-2 lg:my-3 font-bold">Choose your activity and get started</h2>
+      <h2 class="text-2xl lg:text-xl my-2 font-bold">New Activity</h2>
 
       <form class="py-3" (ngSubmit)="onSubmit()" [formGroup]="activityForm">
         <div class="field field-wrapper">
           <label for="athlete" class="block labelling">Athlete</label>
           <input
-            formControlName="athlete"
-            id="athlete"
-            type="text"
-            placeholder="Ustain Zolt"
-            pInputText class="p-3 border-round-lg lg:border-round-2xl lg:w-7"/>
+          id="athlete"
+          type="text"
+          placeholder="Ustain Zolt"
+          formControlName="athlete" pInputText
+          class="p-3 border-round-lg lg:w-7 text-sm"/>
         </div>
 
         <div class="lg:flex align-items-center gap-5">
           <div class="field field-wrapper">
             <label class="block labelling" for="activity">Activity</label>
             <p-autoComplete
-              class="border-round-2xl"
-              id="activity"
-              formControlName="activity"
-              [suggestions]="filteredActivities"
-              (completeMethod)="filterActivity($event)"
-              [dropdown]="true">
+            id="activity"
+            class="text-sm"
+            [forceSelection]="true"
+            [showClear]="true"
+            formControlName="activity"
+            [suggestions]="filteredActivities"
+            (completeMethod)="filterActivity($event)"
+            [dropdown]="true">
                 <ng-template let-activity pTemplate="item">
-                  <div>{{ activity }}</div>
+                  <div class="flex align-items-center gap-2">
+                    <fa-icon [icon]="icon(activity)"></fa-icon>
+                    <div>{{ activity }}</div>
+                  </div>
                 </ng-template>
             </p-autoComplete>
           </div>
@@ -36,7 +47,7 @@
             <input
               id="title"
               type="text" pInputText
-              class="p-3 border-round-lg lg:border-round-2xl w-full"
+              class="p-3 border-round-lg w-full text-sm"
               formControlName="title" />
           </div>
         </div>
@@ -45,7 +56,7 @@
           <label for="description" class="block labelling">Description</label>
           <textarea
             id="description"
-            class="p-2 lg:p-3 border-round-lg lg:border-round-2xl w-full"
+            class="p-3 border-round-lg w-full text-sm"
             rows="5"
             formControlName="description"
             pInputTextarea [autoResize]="true" >
@@ -53,10 +64,10 @@
         </div>
 
         <button pButton pRipple
-          type="submit"
-          label="{{ activityForm.valid ? 'Let\'s go' : 'Fill the name at least' }}"
-          class="text-base lg:text-xl px-5 lg:px-8 lg:py-3 border-round-xl"
-          [disabled]="!activityForm.valid">
+        type="submit"
+        label="{{ activityForm.valid ? 'Let\'s go feel it' : 'Fill it before you feel it' }}"
+        class="text-md lg:text-sm lg:px-5 p-3 border-round-xl"
+        [disabled]="!activityForm.valid">
           <fa-icon class="mr-2" [icon]="faStart"></fa-icon>
         </button>
       </form>

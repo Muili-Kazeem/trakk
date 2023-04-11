@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithEmailLink, signInWithPopup, signOut } from '@angular/fire/auth';
+import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  constructor(private fireAuth: Auth) { }
+  constructor(private fireAuth: Auth ) {}
+  userId: string | undefined;
 
   getAuth() {
     return authState(this.fireAuth)
@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   logout() {
-    return signOut(this.fireAuth)
+    return signOut(this.fireAuth);
   }
 
   // googleSignUp(email:string, password: string) {

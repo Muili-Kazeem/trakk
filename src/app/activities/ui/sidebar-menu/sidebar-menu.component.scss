@@ -1,11 +1,19 @@
 @import 'primeflex/primeflex.scss';
 
 .bordering {
-  @include styleclass('lg:border-1 border-300 border-round-xl');
+  @include styleclass('border-1 border-300 border-round-xl');
 }
 
 .nav-item {
-  @include styleclass('hover:bg-blue-50 p-2 my-2 border-round-lg font-medium text-800 hover:text-blue-800');
+  @include styleclass('hover:bg-blue-50 p-2 my-1 lg:p-2 border-round-lg font-semibold hover:text-blue-800 text-700');
+}
+
+.nav-link {
+  @include styleclass('flex align-items-center lg:justify-content-start justify-content-center lg:text-sm text-xl');
+}
+
+.visible {
+  @include styleclass('hidden lg:inline-flex');
 }
 
 small {

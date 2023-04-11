@@ -16,6 +16,7 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
+import { ConfirmationService } from 'primeng/api';
 
 
 
@@ -38,6 +39,7 @@ import { environment } from '../environments/environment';
     provideRemoteConfig(() => getRemoteConfig()),
     provideStorage(() => getStorage())
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [ConfirmationService]
 })
 export class AppModule { }

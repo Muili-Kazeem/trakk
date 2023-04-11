@@ -9,60 +9,35 @@
 }
 
 .activity-dashboard {
-  max-width: 1200px;
+  max-width: 960px;
 }
 
-.left-stat {
+.left-dash {
   flex: 1 1 70%;
   height: 100%;
-  max-height: 650px;
-
-  @media (max-width: 1200px) {
-    height: max-content;
-    max-height: max-content;
-  }
-
-  .preview {
-    flex: 1 1 70%;
-  }
-
-  .graph {
-    flex: 1 1 30%;
-    @media (max-width: 1200px) {
-      height: max-content;
-      min-height: 15rem;
-    }
-  }
-
-  .stat-top, .stat-bottom {
-    @media (max-width: 1200px) {
-      height: max-content;
-      max-height: max-content;
-    }
-  }
 }
 
-.right-recent {
+.right-dash {
   flex: 1 1 30%;
   min-width: 300px;
 }
 
 .stat-top {
+  flex: 1 1 40%;
+}
+
+.recent-bottom {
   flex: 1 1 60%;
+  height: 100%;
 }
 
-.stat-bottom {
-  flex: 1 1 50%;
-  max-height: 400px;
+.recent-bottom, .stat-top, .left-dash {
+  @media (max-width: 960px) {
+    height: max-content;
+  }
 }
 
-app-top-activity-card, app-recent-activity-card {
+app-top-activity-card {
   flex: 1 1 30%;
-  min-width: 200px;
-  max-width: 300px;
+  max-width: 600px;
 }
-
-// app-recent-activity-card {
-//   width: 100%;
-//   max-width: 300px;
-// }

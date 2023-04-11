@@ -1,40 +1,18 @@
-<!-- <div class="relative overflow-hidden
-            flex flex-row justify-content-between px-4 border-round-xl acti-card surface-50">
-  <div class="flex flex-auto flex-column my-3">
-    <h4 class="text-lg lg:text-xl mb-1"> {{ activity.title }} </h4>
-    <div class="flex gap-2 text-md lg:text-lg">
-      <small> {{ activity.starting.name }}</small>
-      <small> {{ activity.starting.timeStamp }} </small>
-    </div>
+<div pRipple class="activity-card bg-blue-50 flex justify-content-between align-items-center gap-2 px-3 py-2
+    transition-all transition-duration-500 bordering border-hover">
+  <div class="flex-auto bordering">
+    <small class="text-sm font-semibold text-blue-900"> {{ activity!.athlete }} </small>
+    <h4 class="text-lg"> {{ activity!.title }} </h4>
+    <small class="text-xs text-800 font-medium"> {{ activity!.starting!.timeStamp | localeDateFormating }} </small>
   </div>
-  <div class="flex flex-auto gap-2 p-2 lg:p-3 justify-content-end align-items-center font-bold">
-    <div class="flex align-items-center gap-1">
-      <span class="text-3xl lg:text-4xl"> {{ activity.distance }}</span>
+  <div class="flex gap-2 flex-1 w-3 font-semibold justify-content-end">
+    <div class="">
+      <span class="text-xl"> {{ activity!.distance }}</span>
       <small class="text-md">km</small>
     </div>
-    <h3 class="hidden lg:block">|</h3>
-    <div class=" hidden lg:flex align-items-center gap-1">
-      <span class="text-4xl">{{ activity.duration }}</span>
+    <div class="hidden lg:block">
+      <span class="text-xl">{{ activity!.duration | durationFormatting }}</span>
       <small class="text-md">min</small>
-    </div>
-  </div>
-</div> -->
-
-<div pRipple class="activity-card bg-blue-50 flex justify-content-between align-items-center gap-2 p-3
-    transition-all transition-duration-500 bordering border-hover">
-  <div class="flex-auto">
-    <small class="text-sm font-semibold text-blue-900"> {{ activity.athlete }} </small>
-    <h4 class="text-base lg:text-lg"> {{ activity.title }} </h4>
-    <small class="text-xs lg:text-sm text-800"> {{ activity.starting.timeStamp | localeDateFormating }} </small>
-  </div>
-  <div class="flex gap-3 flex-1 w-3 font-semibold justify-content-end">
-    <div class="">
-      <span class="text-xl"> {{ activity.distance }}</span>
-      <small class="text-lg">km</small>
-    </div>
-    <div class="hidden xl:block">
-      <span class="text-xl">{{ activity.duration }}</span>
-      <small class="text-lg">min</small>
     </div>
   </div>
 

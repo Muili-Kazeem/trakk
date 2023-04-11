@@ -1,9 +1,7 @@
 import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { faBell } from '@fortawesome/free-regular-svg-icons';
-import { ActivatedRoute } from '@angular/router';
 import { StateService } from '../../data-access/state.service';
 import { Observable } from 'rxjs';
+import { iconSelect } from '../../utils/funcs/iconSelect';
 
 @Component({
   selector: 'app-activities-shell',
@@ -11,14 +9,27 @@ import { Observable } from 'rxjs';
   styleUrls: ['./activities-shell.component.scss']
 })
 export class ActivitiesShellComponent implements OnInit, AfterContentChecked {
-  faMenu = faBars;
-  faNotification = faBell;
 
-  pageTitle$!: Observable<string>
-  display: boolean = false;
+  constructor( private state: StateService, private cdRef: ChangeDetectorRef ) {}
+
+  private _display: boolean = false;
+  get display() {
+    return this._display;
+  }
+  set display(value: boolean) {
+    this._display = value
+  }
+
+  pageTitle$!: Observable<string>;
   search: string = '';
 
-  constructor( private route: ActivatedRoute, private state: StateService, private cdRef: ChangeDetectorRef ) {}
+  icon(category: string) {
+    return iconSelect(category)
+  }
+
+  onDisplayChange(value: boolean) {
+    this.display = value;
+  }
 
   ngAfterContentChecked() {
     this.pageTitle$ = this.state.pageTitle$

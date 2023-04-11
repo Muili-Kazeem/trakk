@@ -1,4 +1,4 @@
-import { Observable, Subject, interval, takeUntil } from "rxjs";
+import { Observable, Subject, interval, takeUntil, timer } from "rxjs";
 import { DateTime, Duration } from 'luxon';
 
 export class Timer {
@@ -19,7 +19,7 @@ export class Timer {
       this.pauseDuration = 0;
     }
 
-    this.time$ = interval(10).pipe(
+    this.time$ = timer(0, 1000).pipe(
       takeUntil(this.destroy$)
     );
 

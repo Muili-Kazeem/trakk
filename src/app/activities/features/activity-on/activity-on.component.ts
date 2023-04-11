@@ -1,7 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { faBars, faBolt, faClockRotateLeft, faLocationDot, faRoad, faRunning } from '@fortawesome/free-solid-svg-icons';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ActiveActivityMapComponent } from '../../ui/active-activity-map/active-activity-map.component';
+import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Timer } from '../../utils/funcs/timer';
 import { PositionTracker } from '../../utils/funcs/PositionTracker';
 import { ActivitiesDataService } from '../../data-access/activities-data.service';
@@ -9,42 +6,42 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StateService } from '../../data-access/state.service';
 import { IActivity } from '../../utils/models/iactivity';
 import { DateTime } from 'luxon';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
+import { HandlemapService } from './handlemap.service';
+import { iconSelect } from '../../utils/funcs/iconSelect';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-activity-on',
   templateUrl: './activity-on.component.html',
   styleUrls: ['./activity-on.component.scss'],
-  providers: [DialogService, MessageService, ConfirmationService]
+  providers: [MessageService]
 })
-export class ActivityOnComponent implements OnInit, OnDestroy {
-  faMenu = faBars;
-  faRun = faRunning;
-  faRoad = faRoad;
-  faTime = faClockRotateLeft;
-  faMap = faLocationDot;
-  faSpeed = faBolt;
+export class ActivityOnComponent implements OnInit, OnDestroy, AfterViewInit {
+  icon(category: string) {
+    return iconSelect(category)
+  }
+  @ViewChild("map") private mapRef!: ElementRef;
 
   started: boolean = false;
   ongoing: boolean = false;
   paused: boolean = false;
 
-  ref!: DynamicDialogRef;
+  sub!: Subscription;
   displayMetricsPane: boolean = true;
   activityCategory!: string;
   activityId!: string;
 
   timer = new Timer();
   tracker = new PositionTracker();
-  watchId = this.tracker.getWatchId();
 
   constructor(
-    private dialogService: DialogService,
     private activitiesService: ActivitiesDataService,
     private router: Router,
     private route: ActivatedRoute,
     private state: StateService,
-    private messageService: MessageService) {}
+    private messageService: MessageService,
+    private map: HandlemapService ) {}
 
   ngOnInit(): void {
     this.activityCategory = this.route.snapshot.paramMap.get("activity") as string;
@@ -52,28 +49,27 @@ export class ActivityOnComponent implements OnInit, OnDestroy {
     this.state.emitPageTitle(this.route.snapshot?.data["pageTitle"]);
   }
 
+  ngAfterViewInit(): void {
+    this.map.buildMap()
+    this.messageService.add({ key: 'gps', detail: "Please turn on your Location. Acquiring GPS...", closable: false, life: 5000 })
+  }
+
   // Toggle metrics pane visibility
   toggleMetricsPane() {
     this.displayMetricsPane = !this.displayMetricsPane;
   }
 
-  // Display realtime map activity tracks in dialog on mobile
-  showMap() {
-    this.ref = this.dialogService.open(ActiveActivityMapComponent, {
-        width: '80%',
-        height: '100%',
-        contentStyle: {"overflow": "auto"},
-        baseZIndex: 10000,
-        maximizable: true
-    });
+  scrollToMap() {
+    this.mapRef.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
 
   start() {
-    this.timer.startTiming();
-    this.tracker.startTracking();
     this.started = true;
     this.ongoing = true;
     this.paused = false;
+    this.timer.startTiming();
+    this.tracker.startTracking()
+    this.map.startTrackingActivityPoints()
   }
 
   pause() {
@@ -89,10 +85,10 @@ export class ActivityOnComponent implements OnInit, OnDestroy {
   }
 
   post() {
-    if (!(this.tracker.getDistance() <= 0.1 || this.tracker.getDistance() === undefined)) {
+    if (this.tracker.getDistance() <= 0.1 || this.tracker.getDistance() === undefined) {
       this.timer.pauseTiming()
       this.tracker.stopTracking()
-      // this.messageService.add({key: 'gps', sticky: true, detail:'You have not covered any distance'});
+      this.messageService.add({ key:'distance', detail:"Trakk needs more data to work with.", summary:"You only covered little distance.", closable:false, life:4000 })
     } else {
       this.timer.pauseTiming()
       this.tracker.stopTracking()
@@ -102,31 +98,27 @@ export class ActivityOnComponent implements OnInit, OnDestroy {
         duration: this.timer.getTime(),
         category: this.activityCategory,
         date: DateTime.local().toUTC().toISO(),
-        navigatingCoords: this.tracker.getGeoJSON(),
+        navigatingCoords: JSON.stringify(this.tracker.getGeoJSON()),
         distance: this.tracker.getDistance(),
         starting: {
-          coords: this.tracker.getStartingPosition(),
-          timeStamp: DateTime.local().toUTC().toISO()
+          coords: this.tracker.getStartingPosition() ? [0,0] : this.tracker.getStartingPosition(),
+          timeStamp: DateTime.local().toUTC().toISO(),
         },
         stopping: {
-          coords: this.tracker.getStoppingPosition(),
-          timeStamp: DateTime.local().toUTC().toISO()
+          coords: this.tracker.getStoppingPosition() ? [0,0] : this.tracker.getStoppingPosition(),
+          timeStamp: DateTime.local().toUTC().toISO(),
         },
       }
 
-      console.log(activityData)
-      this.activitiesService.emitActivityData(activityData)
+      // console.log(activityData)
+      this.sub = this.activitiesService.emitActivityData(activityData).subscribe(all => confirm("E go abi e no go"), err => confirm(`E be like say e no confirm oo ${err} `))
     }
     // this.router.navigate(["activities", this.activityCategory, this.activityId])
   }
 
-
-
-
-
   ngOnDestroy(): void {
-    if (this.ref) {
-      this.ref.close();
+    if (this.map.map) {
+      this.map.unsubscribe()
     }
   }
 }

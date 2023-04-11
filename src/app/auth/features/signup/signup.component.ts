@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../data-access/auth.service';
+import { ActivitiesDataService } from 'src/app/activities/data-access/activities-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -11,7 +13,11 @@ export class SignupComponent implements OnInit {
 
   signupForm!: FormGroup
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private dataService: ActivitiesDataService) {}
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
@@ -25,9 +31,11 @@ export class SignupComponent implements OnInit {
     let {email, password} = value;
 
     if (valid) {
-      console.log(valid, value);
       this.authService.signup(email, password)
-      .then(res => { console.log(res)})
+      .then(res => {
+        this.router.navigate(['/activities'])
+        console.log(res)
+      })
       .catch(err => { console.log(JSON.stringify(err.message))})
     }
   }

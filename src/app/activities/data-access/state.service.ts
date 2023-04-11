@@ -9,13 +9,6 @@ export class StateService {
 
   constructor() { }
 
-  private showcasePreviewSubject = new Subject<any>();
-  showcasePreview$ = this.showcasePreviewSubject.asObservable();
-
-  emitPreviewActivity(activity: IActivity) {
-    this.showcasePreviewSubject.next(activity)
-  }
-
   private pageTitleSubject = new BehaviorSubject<string>("Overview");
   pageTitle$ = this.pageTitleSubject.asObservable();
 

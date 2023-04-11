@@ -5,14 +5,14 @@
 }
 
 .activity-info {
-  max-width: 1200px;
+  max-width: 960px;
 }
 
 .map-left {
   flex: 5 1 70%;
   height: 100%;
 
-  @media (max-width: 1200px) {
+  @media (max-width: 960px) {
     width: 100%;
     max-height: 600px;
     aspect-ratio: 3/4;
@@ -21,4 +21,11 @@
 
 .detail-right {
   flex: 1 1 30%;
+}
+
+.controls {
+  min-width: max-content;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
 }

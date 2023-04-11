@@ -1,21 +1,28 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../data-access/auth.service';
 import { Router } from '@angular/router';
+import { Auth, authState } from '@angular/fire/auth';
 import { Subscription } from 'rxjs';
+import { ActivitiesDataService } from 'src/app/activities/data-access/activities-data.service';
+import { AuthService } from '../../data-access/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [MessageService]
 })
 export class LoginComponent implements OnInit, OnDestroy {
+  constructor( private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService,
+  ) {}
 
   loginForm!: FormGroup;
   getAuthSub!: Subscription;
-
-
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
+  isLoggingIn: boolean = false;
 
   ngOnInit(): void {
     // Redirect away from login page if already logged in
@@ -32,24 +39,26 @@ export class LoginComponent implements OnInit, OnDestroy {
     })
   }
 
-
-  // Logging in handlng function
+  // Logging in handle function
   onLogin() {
     let {valid, value} = this.loginForm;
     let {email, password} = value;
+    this.isLoggingIn = true;
 
     if (valid) {
-      console.log(valid, value);
       this.authService.login(email, password)
       .then(res => {
-        // Use toasts
-        console.log("You are logged in")
-        // redirect to dashboard
+        console.log(res)
+        this.router.navigate(['/activities'])
       })
       .catch(err => {
-        // Toast to send error message back
+        this.isLoggingIn = false;
+        this.messageService.add({ key:'error', detail: err.code, summary: err.message, closable:false, life:3000 })
         console.log(JSON.stringify(err.code))
       })
+    } else {
+      this.messageService.add({ key:'error', summary: "Input valid login credentials", closable:false, life:3000 })
+      this.isLoggingIn = false;
     }
   }
 

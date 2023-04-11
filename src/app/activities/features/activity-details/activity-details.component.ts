@@ -1,51 +1,57 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { faBolt, faClock, faRoad, faRunning, faWind } from '@fortawesome/free-solid-svg-icons';
-import { ActivitiesDataService } from '../../data-access/activities-data.service';
-import { MapService } from '../../data-access/map.service';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription, catchError, map, of, startWith, switchMap, tap } from 'rxjs';
+
+import { ActivitiesDataService } from '../../data-access/activities-data.service';
+import { MapService } from './map.service';
 import { IActivity } from '../../utils/models/iactivity';
-import { Observable, map, tap } from 'rxjs';
+import { iconSelect } from '../../utils/funcs/iconSelect';
+import { IRequestState } from '../../utils/models/iRequestState';
+
 
 @Component({
   selector: 'app-activity-details',
   templateUrl: './activity-details.component.html',
   styleUrls: ['./activity-details.component.scss']
 })
-export class ActivityDetailsComponent implements OnInit, AfterViewInit {
+export class ActivityDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
+  constructor( private activitiesService: ActivitiesDataService, private route: ActivatedRoute, private mapService: MapService ) {};
+  ngOnInit(): void {};
+  icon(category: string) { return iconSelect(category) };
 
-  faRun = faRunning;
-  faStart = faBolt;
-  faClock = faClock;
-  faSpeed = faWind;
-  faRoad = faRoad;
-
-  activityId!: number;
+  activitySub!: Subscription;
+  activityId!: string;
   activityCategory!: string;
-  activity$!: Observable<IActivity>;
+  activity!: IActivity;
 
-  constructor( private activitiesService: ActivitiesDataService,
-               private map: MapService,
-               private route: ActivatedRoute ) {}
+  activity$: Observable<IRequestState<IActivity>> = this.route.paramMap.pipe(
+    switchMap(route => {
+      this.activityCategory = route.get("activity")!;
+      this.activityId = route.get("id")!;
+      console.log(this.activityCategory, this.activityId);
+      return this.activitiesService.getActivityData(this.activityCategory, this.activityId);
+    }),
+    // tap(all => console.log(all)),
+    map((value) => ({isLoading: false, value})),
+    catchError(err => {
+      // this.errorMessage = err;
+      return of({isLoading: false, err})
+    }),
+    startWith({isLoading: true})
+  );
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(
-      params => {
-        this.activityCategory = <string>params.get("activity")
-        this.activityId = +(params.get("id")!)
-        console.log(this.activityCategory, this.activityId)
-        this.activity$ = this.activitiesService.getActivityData(this.activityCategory, this.activityId).pipe(
-          tap( hi => {console.log(hi)}))
-      }
-    )
-  }
-
-  ngAfterViewInit(): void {
-    this.map.buildMap()
+  ngAfterViewInit() {
+    this.activitySub = this.activity$.pipe(map(({value}) => value))
+      .subscribe( data => { this.mapService.buildMap(data!); this.activity = data!; } )
   }
 
   applyGeo() {
-    console.log("I'm working");
-    this.map.lineAnimate();
+    this.mapService.lineAnimate(this.activity);
+  }
+
+
+  ngOnDestroy(): void {
+    if (this.activitySub) { this.activitySub.unsubscribe() }
   }
 
 }

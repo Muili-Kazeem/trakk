@@ -5,16 +5,23 @@ import { ActivitiesDataService } from '../../data-access/activities-data.service
 import { ActivatedRoute, Router } from '@angular/router';
 import { IActivity } from '../../utils/models/iactivity';
 import { StateService } from '../../data-access/state.service';
+import { MessageService } from 'primeng/api';
+import { iconSelect } from '../../utils/funcs/iconSelect';
 
 @Component({
   selector: 'app-activity-form',
   templateUrl: './activity-form.component.html',
-  styleUrls: ['./activity-form.component.scss']
+  styleUrls: ['./activity-form.component.scss'],
+  providers: [MessageService]
 })
 export class ActivityFormComponent implements OnInit {
+  icon(category: string) {
+    return iconSelect(category)
+  }
+
   faStart = faBolt;
 
-  activityId!: string
+  activityId!: string;
 
   activityForm!: FormGroup;
   activityData!: IActivity;
@@ -24,14 +31,15 @@ export class ActivityFormComponent implements OnInit {
     private router: Router,
     private state: StateService,
     private route: ActivatedRoute,
+    private messageService: MessageService,
     private fb: FormBuilder ) { }
 
   ngOnInit(): void {
     this.activityId = this.route.snapshot.paramMap.get('id') as string;
     this.activityForm = this.fb.group({
       athlete: ['', [Validators.required]],
-      activity: '',
-      title: '',
+      activity: ['', [Validators.required]],
+      title: ['', [Validators.required]],
       description: '',
     })
 
@@ -40,15 +48,12 @@ export class ActivityFormComponent implements OnInit {
   }
 
 
-
   // Form data submission
   onSubmit() {
     const { valid, value} = this.activityForm
     if (!valid) {
-      // show error message toast
+      this.messageService.add({ key: 'form-error', detail: "Please fill in the form", closable: false, life: 5000 })
     } else {
-      // Save data and pass on to Activity on
-      // Route to activity on
       if (value) {
         this.activitiesService.emitActivityFormData(value)
         this.router.navigate(["activities", value.activity, this.activityId, 'on'])
@@ -57,9 +62,9 @@ export class ActivityFormComponent implements OnInit {
   }
 
 
-
   // Activities List and dropdown filtering
-  activitiesList: string[] = ["Riding", "Hiking", "Running", "Walking", "Jogging", "Skiing", "Paralympcing"];
+  activitiesList: string[] = ["Drive", "Hike", "Run", "Walk", "Wheelchair", "Bike ride", "Swim",
+  "Sail", "Ice skating", "Snowboarding", "Ski", "Skateboard", "Cycling"];
   filteredActivities!: any[];
 
   filterActivity(event: { query: any; }) {

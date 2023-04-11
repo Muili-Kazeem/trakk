@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { faBolt, faClock, faRoad, faRunning, faWind } from '@fortawesome/free-solid-svg-icons';
-import { ActivitiesDataService } from '../../data-access/activities-data.service';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, catchError, map, of, startWith, switchMap, tap } from 'rxjs';
+
+import { ActivitiesDataService } from '../../data-access/activities-data.service';
+import { StateService } from '../../data-access/state.service';
 import { IActivity } from '../../utils/models/iactivity';
 import { recentSorting } from '../../utils/funcs/recentSorting';
-import { StateService } from '../../data-access/state.service';
+import { IRequestState } from '../../utils/models/iRequestState';
+import { iconSelect } from '../../utils/funcs/iconSelect';
 
 @Component({
   selector: 'app-activity-overview',
@@ -13,53 +15,46 @@ import { StateService } from '../../data-access/state.service';
   styleUrls: ['./activity-overview.component.scss']
 })
 export class ActivityOverviewComponent implements OnInit {
+  constructor( private activitiesService: ActivitiesDataService, private route: ActivatedRoute, private state: StateService ) {};
+  ngOnInit(): void { this.state.emitPageTitle(this.route.snapshot?.data["pageTitle"]) }
 
-  faRun = faRunning;
-  faStart = faBolt;
-  faClock = faClock;
-  faSpeed = faWind;
-  faRoad = faRoad;
+  icon(category: string) { return iconSelect(category) };
+
   activityCategory!: string;
-  categoryActivities$!: Observable<IActivity[]>;
-  categoryTotalDuration$!: Observable<number>;
-  categoryTotalDistance$!: Observable<number>;
 
-  constructor( private activitiesService: ActivitiesDataService, private route: ActivatedRoute, private state: StateService ) { }
+  categoryActivities$: Observable<IRequestState<IActivity[]>> = this.route.paramMap.pipe(
+    switchMap(route => {
+      this.activityCategory = route.get("activity")!;
+      return this.activitiesService.getCategoryData(this.activityCategory).pipe(
+        map( categoryActivities => categoryActivities.sort((a, b) => recentSorting(a, b)) )
+      )
+    }),
+    map((value) => ({isLoading: false, value})),
+    catchError(err => {
+      // this.errorMessage = err;
+      return of({isLoading: false, err})
+    }),
+    startWith({isLoading: true})
+  );
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(
-      params => {
-        this.activityCategory = <string>params.get("activity")
-        console.log(this.activityCategory)
-        this.categoryActivities$ = this.activitiesService.getCategoryData(this.activityCategory).pipe(
-          map( categoryActivities => categoryActivities.sort((a, b) => recentSorting(a, b)) )
-        )
-      }
-    )
+  categoryTotalDuration$: Observable<number | undefined> = this.categoryActivities$.pipe(
+    map(({value: categoryActivities}) => {
+      return categoryActivities?.reduce((acc, activity) => {
+        acc += activity.duration
+        return acc;
+      }, 0 as number)
+    }),
+    tap((all) => console.log(all))
+  );
 
-    this.state.emitPageTitle(this.route.snapshot?.data["pageTitle"])
-
-    this.categoryTotalDistance$ = this.categoryActivities$.pipe(
-      map(categoryActivities => {
-        return categoryActivities.reduce((acc, activity) => {
-          acc += activity.distance
-          return acc;
-        }, 0 as number)
-      }),
-      tap(all => console.log(all))
-    );
-
-    this.categoryTotalDuration$ = this.categoryActivities$.pipe(
-      map(categoryActivities => {
-        return categoryActivities.reduce((acc, activity) => {
-          acc += activity.duration
-          return acc;
-        }, 0 as number)
-      }),
-      tap((all) => console.log(all))
-    )
-
-  }
-
+  categoryTotalDistance$: Observable<number | undefined> = this.categoryActivities$.pipe(
+    map(({value: categoryActivities}) => {
+      return categoryActivities?.reduce((acc, activity) => {
+        acc += activity.distance
+        return acc;
+      }, 0 as number)
+    }),
+    tap(all => console.log(all))
+  );
 
 }

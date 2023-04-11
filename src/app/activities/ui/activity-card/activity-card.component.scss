@@ -1,14 +1,5 @@
 @import 'primeflex/primeflex.scss';
 
-.acti-card::after {
-  content: '';
-  background-color: blue;
-  height: 100%;
-  width: 2%;
-  position: absolute;
-  left: -1%;
-}
-
 :host ::ng-deep .p-ripple .p-ink {
   background: rgba(#1769aa, 0.7);
 }
