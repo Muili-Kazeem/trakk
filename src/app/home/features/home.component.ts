@@ -1,6 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faTwitter, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
+import { DateTime } from 'luxon';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +13,12 @@ gsap.registerPlugin(ScrollTrigger);
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, AfterViewInit {
+  letter = faEnvelope;
+  github = faGithub;
+  linkedIn = faLinkedin;
+  twitter = faTwitter;
+
+  year: string = DateTime.local().year;
 
   @ViewChild("body") body!: ElementRef;
   @ViewChild("main") main!: ElementRef;

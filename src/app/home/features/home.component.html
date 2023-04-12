@@ -1,6 +1,6 @@
-<main class="body relative h-screen" #body>
+<div class="body relative" #body>
 
-  <!-- <section class="intro h-screen w-full absolute flex flex-column align-items-center justify-content-between boda" #intro>
+  <!-- <div class="intro h-screen w-full absolute flex flex-column align-items-center justify-content-between boda" #intro>
     <nav class="boda">Trakk</nav>
     <div class="intro_body boda w-full">
       <h2 class="intro_header flex flex-column align-items-center text-6xl mb-3">
@@ -16,60 +16,80 @@
       <p>CLICK TO SEE TRAKK</p>
       <a (click)="expose()">SVG</a>
     </div>
-  </section> -->
+  </div>  -->
 
-  <div class="main" #main>
+  <main class="" #main>
     <div class="hero">
-      <h2 class="text-3xl">Hero being hero</h2>
+      <div class="hero_body">
+        <div class="hero_body__header">
+          <h2>Focus on your sport. <br>Tracking is on us</h2>
+        </div>
+      </div>
+      <div class="hero_bcg">
+        <img src="../../../assets/hero1.webp" alt="trakk-hero">
+      </div>
     </div>
+
     <div class="features" #features>
       <section class="features_section two" #card>
-        <div class="container">
-          <div class="col-left">
-            <h2>Track your activities</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum voluptatem quae quidem, quam sapiente officia.</p>
-          </div>
-          <div class="col-right">
-            <img src="../../../assets/pexels-philip-ackermann-878151.jpg" class="bg" alt="image">
-          </div>
+        <div class="features_section__description">
+          <h2>Track and record your sporting activities</h2>
         </div>
-      </section>
-
-      <section class="features_section three" #card>
-        <div class="container">
-          <div class="col-left">
-            <h2>Unlock new secret paths and share with friends</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum voluptatem quae quidem, quam sapiente officia.</p>
-          </div>
-          <div class="col-right">
-            <img src="../../../assets/pexels-philip-ackermann-878151.jpg" class="bg" alt="image">
-          </div>
+        <div class="bcg">
+          <img src="../../../assets/feature1.webp" class="bg" alt="image">
         </div>
       </section>
 
       <section class="features_section four" #card>
-        <div class="container">
-          <div class="col-left">
-            <h2>Join a community of similar activities participants</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum voluptatem quae quidem, quam sapiente officia.</p>
-          </div>
-          <div class="col-right">
-            <img src="../../../assets/pexels-philip-ackermann-878151.jpg" class="bg" alt="image">
-          </div>
+        <div class="features_section__description">
+          <h2>Take on challenges and attain new rankings</h2>
+        </div>
+        <div class="bcg">
+          <img src="../../../assets/feature2.webp" class="bg" alt="image">
         </div>
       </section>
 
       <section class="features_section five" #card>
-        <div class="container">
-          <div class="col-left">
-            <h2>Replay activities on the go</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cum voluptatem quae quidem, quam sapiente officia.</p>
-          </div>
-          <div class="col-right">
-            <img src="../../../assets/pexels-philip-ackermann-878151.jpg" class="bg" alt="image">
-          </div>
+        <div class="features_section__description">
+          <h2>Cover and replay activities on the go</h2>
+        </div>
+        <div class="bcg">
+          <img src="../../../assets/feature3.webp" class="bg" alt="image">
+        </div>
+      </section>
+
+      <section class="features_section three" #card>
+        <div class="features_section__description">
+          <h2>Share new unlocked paths with friends</h2>
+        </div>
+        <div class="bcg">
+          <img src="../../../assets/feature4.webp" class="bg" alt="image">
+        </div>
+      </section>
+
+      <section class="features_section three" #card>
+        <div class="features_section__description">
+          <h2>Connect with fellow athletes around the world</h2>
+        </div>
+        <div class="bcg">
+          <img src="../../../assets/feature1.webp" class="bg" alt="image">
         </div>
       </section>
     </div>
+  </main>
+
+  <div class="cta">
+    <h3>Ready to feel it? <br>Start now</h3>
+    <a href="#">Get Started. It's free</a>
   </div>
-</main>
+  <footer>
+    <h4>Proudly made in nigeria flag* by Ilium</h4>
+    <div>
+      <a href="#"><fa-icon [icon]="letter"></fa-icon></a>
+      <a href="#"><fa-icon [icon]="linkedIn"></fa-icon></a>
+      <a href="#"><fa-icon [icon]="github"></fa-icon></a>
+      <a href="#"><fa-icon [icon]="twitter"></fa-icon></a>
+    </div>
+    <p>&copy; {{year}} Trakk. All rights reserved.</p>
+  </footer>
+</div>
