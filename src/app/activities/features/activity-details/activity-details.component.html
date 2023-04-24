@@ -1,15 +1,21 @@
 <ng-container *ngIf="activity$ | async as data">
+
+  <p-toast position="center" key="notification" [breakpoints]="{'1800px': {width: 'max-content' }}">
+    <ng-template let-message pTemplate="message">
+      <div class="text-xs font-normal text-white text-center mx-2">
+        <h4 class="font-medium text-sm">{{message.summary}}</h4>
+      </div>
+    </ng-template>
+  </p-toast>
+
   <div class="detail-layout h-full xl:py-3" >
     <div class="activity-info flex flex-column xl:flex-row gap-4 h-full mx-auto" *ngIf="data.value as activity">
-
       <div class="map-left xl:border-round-xl overflow-hidden relative">
         <div class="map w-full h-full" id="mapping"></div>
-
         <div class="controls absolute bg-white bordering">
           <button pButton pRipple type="button" icon="pi pi-play" class="p-button-xs p-button-rounded p-button-text" (click)="applyGeo()"></button>
         </div>
       </div>
-
       <div class="detail-right flex flex-column justify-content-between bordering p-2 xl:m-0 mx-3 mb-4">
         <div class="p-2 flex flex-column gap-2">
           <div>
@@ -36,9 +42,7 @@
             <fa-icon class="mr-2" [icon]="icon(activity.category)"></fa-icon>
           </button>
         </div>
-
         <p-divider></p-divider>
-
         <div class="flex flex-wrap p-2 gap-1 text-center">
           <div class="flex flex-1 flex-column align-items-center w-max">
             <small class="m-1"><fa-icon [icon]="icon('distance')"></fa-icon></small>
@@ -60,11 +64,9 @@
             <small class=""> km/s</small>
           </div>
         </div>
-
         <p-divider></p-divider>
-
         <div class="actions flex justify-content-center p-2 text-center gap-1">
-          <small class="flex-1 flex flex-column align-items-center">
+          <small class="flex-1 flex flex-column align-items-center" (click)="addToFav()">
             <button pButton pRipple type="button" icon="pi pi-heart" class="p-button-rounded p-button-text p-button-primary my-1"></button>
             <span class="text-xs">Add to favourite</span>
           </small>
@@ -72,16 +74,15 @@
             <button pButton pRipple type="button" icon="pi pi-send" class="p-button-rounded p-button-text p-button-secondary my-1"></button>
             <span class="text-xs">Share</span>
           </small>
-          <small class="flex-1 flex flex-column align-items-center">
+          <small class="flex-1 flex flex-column align-items-center" (click)="copyLink()">
             <button pButton pRipple type="button" icon="pi pi-link" class="p-button-rounded p-button-text p-button-info my-1"></button>
             <span class="text-xs">Copy Link</span>
           </small>
-          <small class="flex-1 flex flex-column align-items-center">
+          <small class="flex-1 flex flex-column align-items-center" (click)="delete()">
             <button pButton pRipple type="button" icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger my-1"></button>
             <span class="text-xs">Delete</span>
           </small>
         </div>
-
       </div>
     </div>
 

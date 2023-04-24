@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { environment as env } from '../../../../environments/environment';
 import * as mapboxgl from 'mapbox-gl';
-import { Subscription } from 'rxjs'
 import { resolvedGeoJson$ } from "../../utils/funcs/PositionTracker";
 
 @Injectable({
@@ -14,7 +14,6 @@ export class HandlemapService {
   }
 
   sub!: Subscription;
-
   map: any;
 
   buildMap() {
@@ -45,13 +44,14 @@ export class HandlemapService {
           'layout': { 'icon-image': 'rocket' }
         })
 
+        let mapView = false;
         // Update the source from the getLocation API every 2 seconds.
         const updateSource = setInterval(async () => {
           try {
             const pointCoordinates = await this.getLocation(updateSource);
             const geoJson = this.returnGeojson(pointCoordinates)
             // Fly the map to the location.
-            this.map.flyTo({ "center": pointCoordinates, "speed": 0.5, "zoom": 17 });
+            if (!mapView) { this.map.flyTo({ "center": pointCoordinates, "speed": 0.5, "zoom": 17 }); mapView = true }
             this.map.getSource('locate').setData(geoJson);
           } catch (err) {
             // console.log(`Error thrown in setInterval updateSource ${err}`)

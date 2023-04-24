@@ -1,5 +1,6 @@
 <ng-container *ngIf="allCategorizedActivities$ | async as data">
   <div class="dashboard-layout h-full p-1">
+
     <div class="activity-dashboard flex flex-column xl:flex-row gap-4 lg:gap-3 h-full p-3 mx-auto" *ngIf="data.value?.length">
       <div class="left-dash flex flex-column gap-4 lg:gap-3 flex-order-2 lg:flex-order-1">
         <div class="stat-top flex justify-content-center align-items-center p-2 lg:p-3 bordering">
@@ -11,7 +12,7 @@
             <div class="top-activities flex flex-column sm:flex-row flex-wrap gap-2 lg:gap-3">
               <app-top-activity-card pRipple
                 *ngFor="let reducedActivity of allReducedActivities$ | async as allReducedActivities"
-                [routerLink]="[reducedActivity.category]"
+                [routerLink]="['..', reducedActivity.category]"
                 [activity]="reducedActivity"
                 [numOfActivity]="reducedActivity.length">
               </app-top-activity-card>
@@ -26,7 +27,7 @@
           <div class="recent-activities flex flex-column gap-2">
             <ng-container *ngIf="allRecentActivities$ | async as allRecentActivities">
               <app-recent-activity-card pRipple
-                [routerLink]="[recentActivity.category, recentActivity.activityId]"
+                [routerLink]="['..', recentActivity.category, recentActivity.activityId]"
                 *ngFor="let recentActivity of allRecentActivities"
                 [activity]="recentActivity">
               </app-recent-activity-card>
@@ -44,7 +45,6 @@
         </div>
       </div>
     </div>
-
 
     <!-- SKELETON MOCK-UP -->
     <div class="activity-dashboard flex flex-column xl:flex-row gap-3 h-full p-3 mx-auto" *ngIf="data.isLoading">

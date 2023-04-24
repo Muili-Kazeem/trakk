@@ -1,15 +1,16 @@
 import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { DateTime } from 'luxon';
+import { gsap } from 'gsap';
+import { ActivitiesDataService } from '../../data-access/activities-data.service';
+import { HandlemapService } from './handlemap.service';
+import { StateService } from '../../data-access/state.service';
+import { MessageService } from 'primeng/api';
 import { Timer } from '../../utils/funcs/timer';
 import { PositionTracker } from '../../utils/funcs/PositionTracker';
-import { ActivitiesDataService } from '../../data-access/activities-data.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { StateService } from '../../data-access/state.service';
-import { IActivity } from '../../utils/models/iactivity';
-import { DateTime } from 'luxon';
-import { MessageService } from 'primeng/api';
-import { HandlemapService } from './handlemap.service';
 import { iconSelect } from '../../utils/funcs/iconSelect';
-import { Subscription } from 'rxjs';
+import { IActivity } from '../../utils/models/iactivity';
 
 @Component({
   selector: 'app-activity-on',
@@ -18,15 +19,19 @@ import { Subscription } from 'rxjs';
   providers: [MessageService]
 })
 export class ActivityOnComponent implements OnInit, OnDestroy, AfterViewInit {
+
   icon(category: string) {
     return iconSelect(category)
   }
+
   @ViewChild("map") private mapRef!: ElementRef;
+  @ViewChild("animatedIcon") private animatedIcon!: ElementRef;
+  @ViewChild("metricPane") private metricPane!: ElementRef;
 
   started: boolean = false;
   ongoing: boolean = false;
   paused: boolean = false;
-
+  animationObj!: any;
   sub!: Subscription;
   displayMetricsPane: boolean = true;
   activityCategory!: string;
@@ -47,11 +52,19 @@ export class ActivityOnComponent implements OnInit, OnDestroy, AfterViewInit {
     this.activityCategory = this.route.snapshot.paramMap.get("activity") as string;
     this.activityId = this.route.snapshot.paramMap.get("id") as string;
     this.state.emitPageTitle(this.route.snapshot?.data["pageTitle"]);
+    this.scrollToMap();
   }
 
   ngAfterViewInit(): void {
     this.map.buildMap()
     this.messageService.add({ key: 'gps', detail: "Please turn on your Location. Acquiring GPS...", closable: false, life: 5000 })
+  }
+
+  startAnimation() {
+    this.animationObj = gsap.to(
+      this.animatedIcon.nativeElement,
+      { scale: 1.5, duration: 0.1, yoyo: true, repeat: -1 }
+    );
   }
 
   // Toggle metrics pane visibility
@@ -68,13 +81,16 @@ export class ActivityOnComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ongoing = true;
     this.paused = false;
     this.timer.startTiming();
-    this.tracker.startTracking()
-    this.map.startTrackingActivityPoints()
+    this.tracker.startTracking();
+    this.map.startTrackingActivityPoints();
+    if(!this.animationObj) { this.startAnimation() } else { this.animationObj.resume() };
+    this.metricPane.nativeElement.scrollIntoView({behavior: 'smooth'});
   }
 
   pause() {
     this.timer.pauseTiming();
     this.paused = true;
+    this.animationObj.pause();
     // create a pauseTracking in the Positiontracker class
   }
 
@@ -82,17 +98,20 @@ export class ActivityOnComponent implements OnInit, OnDestroy, AfterViewInit {
     this.started = false;
     this.ongoing = false;
     this.paused = false;
+    if (this.animationObj) {
+      this.animationObj.kill();
+    }
   }
 
   post() {
     if (this.tracker.getDistance() <= 0.1 || this.tracker.getDistance() === undefined) {
-      this.timer.pauseTiming()
-      this.tracker.stopTracking()
+      this.timer.pauseTiming();
+      this.tracker.stopTracking();
       this.messageService.add({ key:'distance', detail:"Trakk needs more data to work with.", summary:"You only covered little distance.", closable:false, life:4000 })
     } else {
-      this.timer.pauseTiming()
-      this.tracker.stopTracking()
-      this.finish()
+      this.timer.pauseTiming();
+      this.tracker.stopTracking();
+      this.finish();
 
       let activityData: IActivity = {
         duration: this.timer.getTime(),
@@ -110,10 +129,12 @@ export class ActivityOnComponent implements OnInit, OnDestroy, AfterViewInit {
         },
       }
 
-      // console.log(activityData)
-      this.sub = this.activitiesService.emitActivityData(activityData).subscribe(all => confirm("E go abi e no go"), err => confirm(`E be like say e no confirm oo ${err} `))
+      this.sub = this.activitiesService.emitActivityData(activityData)
+        .subscribe(
+          all => { this.router.navigate(["activities", this.activityCategory, all.id]) },
+          err => confirm(`E never go through but na frebase. E go later go through. Err: ${err.message} `)
+        )
     }
-    // this.router.navigate(["activities", this.activityCategory, this.activityId])
   }
 
   ngOnDestroy(): void {

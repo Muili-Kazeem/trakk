@@ -15,21 +15,21 @@
 
 
 <div class="overview flex flex-column h-auto lg:h-screen lg:relative">
-  <div #map class="map-wrapper flex-auto h-30rem lg:block bordering lg:h-full w-full flex-order-2 my-6 lg:m-0" id="activeMap"> </div>
+  <div #map class="map-wrapper flex-auto h-30rem lg:block lg:h-full w-full flex-order-2 my-6 lg:m-0" id="activeMap"> </div>
 
   <small (click)="toggleMetricsPane()"
   class="detail-toggle-btn absolute surface-50 p-3 border-round-md hidden lg:block pointer">
     <fa-icon class="text-lg" [icon]="icon('menuBar')"></fa-icon>
   </small>
 
-  <div *ngIf="displayMetricsPane"
+  <div *ngIf="displayMetricsPane" #metricPane
   class="metrics-wrapper flex flex-auto flex-column my-3 lg:m-0 align-items-center py-5 gap-2 flex-order-1 border-round-lg lg:absolute bg-white">
     <span class="flex gap-2 align-items-center text-xl lg:text-base font-medium p-2 px-4 bg-primary-50 border-round-3xl">
       <fa-icon class="" [icon]="icon(activityCategory)"></fa-icon>
       <p>{{ activityCategory }}</p>
     </span>
 
-    <small class="my-4"><fa-icon class="text-7xl" [icon]="icon('light')"></fa-icon></small>
+    <small class="my-4" #animatedIcon><fa-icon class="text-7xl" [icon]="icon('light')"></fa-icon></small>
 
     <div class="text-center">
       <fa-icon [icon]="icon('distance')"></fa-icon>

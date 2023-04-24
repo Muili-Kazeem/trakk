@@ -1,6 +1,6 @@
 import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { StateService } from '../../data-access/state.service';
 import { Observable } from 'rxjs';
+import { StateService } from '../../data-access/state.service';
 import { iconSelect } from '../../utils/funcs/iconSelect';
 
 @Component({
@@ -11,17 +11,17 @@ import { iconSelect } from '../../utils/funcs/iconSelect';
 export class ActivitiesShellComponent implements OnInit, AfterContentChecked {
 
   constructor( private state: StateService, private cdRef: ChangeDetectorRef ) {}
+  ngOnInit() { }
 
   private _display: boolean = false;
+  pageTitle$!: Observable<string>;
+
   get display() {
     return this._display;
   }
   set display(value: boolean) {
     this._display = value
   }
-
-  pageTitle$!: Observable<string>;
-  search: string = '';
 
   icon(category: string) {
     return iconSelect(category)
@@ -32,11 +32,8 @@ export class ActivitiesShellComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    this.pageTitle$ = this.state.pageTitle$
+    this.pageTitle$ = this.state.pageTitle$;
     this.cdRef.detectChanges()
-  }
-
-  ngOnInit() {
   }
 
 }

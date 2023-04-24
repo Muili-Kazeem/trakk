@@ -1,100 +1,135 @@
 <div class="body relative" #body>
 
-  <!-- <div class="intro h-screen w-full absolute flex flex-column align-items-center justify-content-between boda" #intro>
-    <nav class="boda">Trakk</nav>
-    <div class="intro_body boda w-full">
-      <h2 class="intro_header flex flex-column align-items-center text-6xl mb-3">
-        <span>Tracking <span class="outline">and</span> Sharing</span> <span>got easier and interactive</span>
-      </h2>
-      <p class="intro_subheader flex flex-column boda w-5 text-base mx-auto text-center font-semibold">
-        Trakk is your intuitive browser-based partner that keeps your tracks covered and recorded while you get better at what you do. <br>
-        Focus on your activities around the world. <br>
-        Leave the where and when to Trakk.
-      </p>
-    </div>
-    <div class="cta boda mb-8">
-      <p>CLICK TO SEE TRAKK</p>
-      <a (click)="expose()">SVG</a>
-    </div>
-  </div>  -->
-
   <main class="" #main>
     <div class="hero">
       <div class="hero_body">
-        <div class="hero_body__header">
-          <h2>Focus on your sport. <br>Tracking is on us</h2>
-          <p>
-            Worry no more about distance and routes covered and spend more time training, practicing and developing. <br>
-            Connect with fellow athletes. Share training stats and ranks. Take on challenges locally and cross-border. <br>
-            Share newly discovered routes with friends. All on trakk.
+        <div class="hero_body__nav" #nav>
+          <a class="hero_trakk"><img src="../../../assets/trakk.svg" alt="trakk_slug"></a>
+          <div>
+            <a [routerLink]="['/auth', 'login']" class="btn login-btn">Login</a>
+            <a [routerLink]="['/auth', 'signup']" class="btn start-btn">Get started</a>
+          </div>
+        </div>
+        <div class="hero_body__wrapper">
+          <div class="hero_body__header" #hero_header>
+            <h2 class="entry">Focus on your sport. <br>Tracking is on us.</h2>
+            <p class="entry">
+              Worry less about distance and routes covered. Spend more time training and practicing.
+              Share training stats and ranks. Share newly discovered routes with friends. All on trakk.
+            </p>
+            <a [routerLink]="['/auth', 'signup']" class="btn start-btn">Get started. It's free</a>
+          </div>
+          <div class="hero_body__img">
+            <img src="../../../assets/compass body.svg" alt="compass_body" class="compass_body">
+            <img src="../../../assets/compass_navigator.svg" alt="compass_navigator" class="compass_navigator" #compass_navigator>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr #hr>
+    <div class="intro" #intro>
+      <div class="intro_wrapper">
+        <h4>About</h4>
+        <a class="intro_trakk"><img src="../../../assets/trakk_offset.svg" alt="trakk_slug"></a>
+        <div class="intro_body">
+          <h2 class="intro_body__header">
+            <span>Tracking <span class="outline">&</span> Sharing <br> got easier and interactive</span>
+          </h2>
+          <p class="intro_body__subheader">
+            Trakk is your intuitive browser-based partner that keeps your tracks covered and recorded while you get better at what you do.
+            Focus on your activities. <br>
+            Leave the where and when to Trakk.
           </p>
         </div>
       </div>
-      <div class="hero_bcg">
-        <img src="../../../assets/hero1.webp" alt="trakk-hero">
-      </div>
     </div>
+    <hr #hr>
 
     <div class="features" #features>
       <section class="features_section two" #card>
         <div class="features_section__description">
-          <h2>Track and record your sporting activities</h2>
+          <fa-icon [icon]="rocket"></fa-icon>
+          <div>
+            <h2>Track and record your sporting activities</h2>
+            <a [routerLink]="['/auth', 'signup']" class="btn start-btn">Get started</a>
+          </div>
         </div>
         <div class="bcg">
-          <img src="../../../assets/feature1.webp" class="bg" alt="image">
+          <img src="../../../assets/JPEG/cycle_riding.jpg" class="bg" alt="image">
         </div>
       </section>
 
       <section class="features_section four" #card>
         <div class="features_section__description">
-          <h2>Take on challenges and attain new rankings</h2>
+          <fa-icon [icon]="rocket"></fa-icon>
+          <div>
+            <h2>Take on challenges and attain new rankings</h2>
+            <a [routerLink]="['/auth', 'signup']" class="btn start-btn">Get started</a>
+          </div>
         </div>
         <div class="bcg">
-          <img src="../../../assets/feature2.webp" class="bg" alt="image">
+          <img src="../../../assets/JPEG/driving2.jpg" class="bg" alt="image">
         </div>
       </section>
 
       <section class="features_section five" #card>
         <div class="features_section__description">
-          <h2>Cover and replay activities on the go</h2>
+          <fa-icon [icon]="rocket"></fa-icon>
+          <div>
+            <h2>Cover and replay activities on the go</h2>
+            <a [routerLink]="['/auth', 'signup']" class="btn start-btn">Get started</a>
+          </div>
         </div>
         <div class="bcg">
-          <img src="../../../assets/feature3.webp" class="bg" alt="image">
+          <img src="../../../assets/JPEG/ice_skating.jpg" class="bg" alt="image">
         </div>
       </section>
 
       <section class="features_section three" #card>
         <div class="features_section__description">
-          <h2>Share new unlocked paths with friends</h2>
+          <fa-icon [icon]="rocket"></fa-icon>
+          <div>
+            <h2>Share new unlocked paths with friends</h2>
+            <a [routerLink]="['/auth', 'signup']" class="btn start-btn">Get started</a>
+          </div>
         </div>
         <div class="bcg">
-          <img src="../../../assets/feature4.webp" class="bg" alt="image">
+          <img src="../../../assets/JPEG/motor_bike.jpg" class="bg" alt="image">
         </div>
       </section>
 
       <section class="features_section three" #card>
         <div class="features_section__description">
-          <h2>Connect with fellow athletes around the world</h2>
+          <fa-icon [icon]="rocket"></fa-icon>
+          <div>
+            <h2>Connect with fellow athletes around the world</h2>
+            <a [routerLink]="['/auth', 'signup']" class="btn start-btn">Get started</a>
+          </div>
         </div>
         <div class="bcg">
-          <img src="../../../assets/feature1.webp" class="bg" alt="image">
+          <img src="../../../assets/JPEG/skateboarding3.jpg" class="bg" alt="image">
         </div>
       </section>
     </div>
+
+    <hr #hr>
+    <div class="cta">
+      <h3>Ready to feel it? <br>Start now</h3>
+      <a [routerLink]="['/auth', 'signup']" class="btn start-btn">Get Started. It's free</a>
+    </div>
+    <hr #hr>
+
+    <footer>
+      <h4>Proudly built by Muili</h4>
+      <div>
+        <a class="mail" href="mailto:muiliquazeem@gmail.com" target="__blank"><fa-icon [icon]="letter"></fa-icon></a>
+        <a class="linkedin" href="https://linkedin.com/in/muili-kazeem-5548491a6" target="__blank"><fa-icon [icon]="linkedIn"></fa-icon></a>
+        <a class="github" href="https://github.com/Muili-Kazeem" target="__blank"><fa-icon [icon]="github"></fa-icon></a>
+        <a class="twitter" href="https://twitter.com/MuiliKazeem1?t=co0ptP_Nf0Q1qvopWLUAjg&s=09" target="__blank"><fa-icon [icon]="twitter"></fa-icon></a>
+      </div>
+      <p>&copy; {{year}} Trakk. All rights reserved.</p>
+    </footer>
   </main>
 
-  <div class="cta">
-    <h3>Ready to feel it? <br>Start now</h3>
-    <a href="#">Get Started. It's free</a>
-  </div>
-  <footer>
-    <h4>Proudly made in nigeria flag* by Ilium</h4>
-    <div>
-      <a href="#"><fa-icon [icon]="letter"></fa-icon></a>
-      <a href="#"><fa-icon [icon]="linkedIn"></fa-icon></a>
-      <a href="#"><fa-icon [icon]="github"></fa-icon></a>
-      <a href="#"><fa-icon [icon]="twitter"></fa-icon></a>
-    </div>
-    <p>&copy; {{year}} Trakk. All rights reserved.</p>
-  </footer>
 </div>

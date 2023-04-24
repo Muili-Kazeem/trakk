@@ -10,6 +10,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full'
+      },
+      {
+        path: 'overview',
         data: { pageTitle: "Overview"},
         loadChildren: () =>
         import("../activities-home/activities-home.module").then(
@@ -50,7 +55,7 @@ const routes: Routes = [
       },
       {
         path: ':id/start',
-        data: { pageTitle: "form"},
+        data: { pageTitle: "New Activity"},
         loadChildren: () =>
           import("../activity-form/activity-form.module").then(
             (m) => m.ActivityFormModule
@@ -58,7 +63,7 @@ const routes: Routes = [
       },
       {
         path: ':activity/:id',
-        data: { pageTitle: "Detail"},
+        data: { pageTitle: ""},
         loadChildren: () =>
           import("../activity-details/activity-details.module").then(
             (m) => m.ActivityDetailsModule
@@ -66,7 +71,7 @@ const routes: Routes = [
       },
       {
         path: ':activity/:id/on',
-        data: { pageTitle: "on"},
+        data: { pageTitle: "Tracking"},
         loadChildren: () =>
           import("../activity-on/activity-on.module").then(
             (m) => m.ActivityOnModule

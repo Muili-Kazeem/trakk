@@ -16,7 +16,6 @@ export class TopActivityCardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.durationDisplay = Duration.fromMillis(this.activity.duration).toFormat("mm:ss")
   }
 
 }

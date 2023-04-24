@@ -1,0 +1,169 @@
+// FEATURES
+.features {
+  position: relative;
+  width: 95%;
+  margin: 3rem auto 0 auto;
+  height: max-content;
+
+  &_section {
+    --spacing: 1rem;
+    top: var(--spacing);
+    position: absolute;
+    width: 100%;
+    height: 80vh;
+    margin: 20px 0;
+    z-index: 6;
+
+    fa-icon {
+      font-size: 4rem;
+      margin: 3rem;
+      @media (max-width: 992px) {
+        margin: 1rem;
+      }
+    }
+
+    &__description {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 3rem;
+      z-index: 5;
+      color: white;
+      @media (max-width: 992px) {
+        padding: 2rem;
+      }
+
+      & > div {
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+      }
+
+      h2 {
+        font-size: 3rem;
+        width: 70%;
+        @media (max-width: 992px) {
+          font-size: 2rem;
+          width: 100%;
+        }
+      }
+
+      .start-btn {
+        background-color: blue;
+        color: white;
+        margin-top: 1rem;
+      }
+    }
+
+    & .bcg {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: absolute;
+      border-radius: 2rem;
+      overflow: hidden;
+
+      img {
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+
+    & .bcg:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 3;
+    }
+  }
+
+  &_section:nth-child(2) {
+    top: calc(var(--spacing) * 2);
+    z-index: 5;
+  }
+
+  &_section:nth-child(3) {
+    top: calc(var(--spacing) * 3);
+    z-index: 4;
+  }
+
+  &_section:nth-child(4) {
+    top: calc(var(--spacing) * 4);
+    z-index: 3;
+  }
+
+  &_section:nth-child(5) {
+    top: calc(var(--spacing) * 5);
+    z-index: 2;
+  }
+}
+
+// CTA
+footer, .cta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5rem;
+}
+
+.cta {
+  background: linear-gradient(45deg, #00AFEF, rgb(5, 0, 45));
+  color: white;
+  padding: 7rem 0;
+
+  a {
+    margin-top: 20px;
+    background-color: white;
+    color: blue;
+  }
+
+  a:hover {
+    color: #00AFEF;
+  }
+}
+
+
+// FOOTER
+footer {
+  gap: 0.5rem;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+
+    a {
+      background: rgba(243, 254, 255, 0.383);
+      color: rgb(2, 2, 63);
+      padding: 3px;
+      border-radius: 50%;
+      height: 40px;
+      width: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+     }
+
+    .mail { color: red;}
+    .github { color: #333;}
+    .linkedin { color: #0e76a8;}
+    .twitter { color: #00acee;}
+  }
+
+  p {
+    font-size: .85rem;
+    font-weight: 500;
+   }
+}

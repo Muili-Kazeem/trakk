@@ -29,3 +29,10 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+:host ::ng-deep .p-toast-message {
+  border-radius: 40px;
+  box-shadow: none;
+  border: solid white 2px;
+  background: rgba(0, 0, 0, 0.864);
+}

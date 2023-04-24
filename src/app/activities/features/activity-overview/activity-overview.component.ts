@@ -57,4 +57,21 @@ export class ActivityOverviewComponent implements OnInit {
     tap(all => console.log(all))
   );
 
+  topActivities$: Observable<IActivity[] | undefined > = this.categoryActivities$.pipe(
+    map(({value: categoryActivities}) => {
+      return categoryActivities?.sort((a: IActivity, b: IActivity): number => {
+        const distA = a.distance;
+        const distB = b.distance;
+        if (distA > distB) { return -1 }
+        if (distA < distB) { return 1 }
+        return 0;
+      })
+    }),
+    map(allTopActivities => {
+      let length = allTopActivities?.length;
+      return allTopActivities?.slice(0, length! > 5 ? 5 : allTopActivities?.length)
+    }),
+    tap((all) => console.log(all))
+  );
+
 }

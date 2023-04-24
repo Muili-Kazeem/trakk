@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Auth, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, authState, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   constructor(private fireAuth: Auth ) {}
-  userId: string | undefined;
 
   getAuth() {
     return authState(this.fireAuth)
@@ -24,7 +23,8 @@ export class AuthService {
     return signOut(this.fireAuth);
   }
 
-  // googleSignUp(email:string, password: string) {
-  //   return signInWithPopup()
-  // }
+  googleSignUp() {
+    const provider = new GoogleAuthProvider();
+    return signInWithRedirect(this.fireAuth, provider);
+  }
 }

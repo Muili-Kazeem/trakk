@@ -1,5 +1,5 @@
-import { IconDefinition, faBolt, faClock, faRoad, faRunning, faWind, faLocationDot, faCar, faWalking, faHiking, faWheelchair, faMotorcycle, faPersonSwimming, faSailboat, faSkating, faSnowboarding, faSkiing, faPersonSkating, faBicycle } from '@fortawesome/free-solid-svg-icons';
-import { faBars, faSignOut, faUser, faGear, faChartSimple, faPersonWalking, faChartPie,  } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faBolt, faClock, faRoad, faRunning, faWind, faLocationDot, faCar, faWalking, faHiking, faWheelchair, faMotorcycle, faPersonSwimming, faSailboat, faSkating, faSnowboarding, faSkiing, faPersonSkating, faBicycle, faPowerOff, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faUser, faGear, faChartSimple, faPersonWalking, faChartPie,  } from '@fortawesome/free-solid-svg-icons';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 
 export function iconSelect(name: string): IconDefinition {
@@ -32,6 +32,8 @@ export function iconSelect(name: string): IconDefinition {
       return faBicycle;
     case 'overview':
       return faChartPie;
+    case 'fav':
+      return faSave;
     case 'stat':
       return faChartSimple;
     case 'setting':
@@ -39,7 +41,7 @@ export function iconSelect(name: string): IconDefinition {
     case 'user':
       return faUser;
     case 'signout':
-      return faSignOut;
+      return faPowerOff;
     case 'location':
       return faLocationDot;
     case 'distance':

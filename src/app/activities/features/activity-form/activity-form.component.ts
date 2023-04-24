@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { faBolt } from '@fortawesome/free-solid-svg-icons';
-import { ActivitiesDataService } from '../../data-access/activities-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IActivity } from '../../utils/models/iactivity';
-import { StateService } from '../../data-access/state.service';
 import { MessageService } from 'primeng/api';
+import { ActivitiesDataService } from '../../data-access/activities-data.service';
+import { StateService } from '../../data-access/state.service';
+import { IActivity } from '../../utils/models/iactivity';
 import { iconSelect } from '../../utils/funcs/iconSelect';
+import { faBolt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-activity-form',
@@ -20,12 +20,9 @@ export class ActivityFormComponent implements OnInit {
   }
 
   faStart = faBolt;
-
   activityId!: string;
-
   activityForm!: FormGroup;
   activityData!: IActivity;
-
 
   constructor(private activitiesService: ActivitiesDataService,
     private router: Router,
@@ -47,7 +44,6 @@ export class ActivityFormComponent implements OnInit {
     this.state.emitPageTitle(this.route.snapshot?.data["pageTitle"])
   }
 
-
   // Form data submission
   onSubmit() {
     const { valid, value} = this.activityForm
@@ -61,7 +57,6 @@ export class ActivityFormComponent implements OnInit {
     }
   }
 
-
   // Activities List and dropdown filtering
   activitiesList: string[] = ["Drive", "Hike", "Run", "Walk", "Wheelchair", "Bike ride", "Swim",
   "Sail", "Ice skating", "Snowboarding", "Ski", "Skateboard", "Cycling"];
@@ -70,7 +65,6 @@ export class ActivityFormComponent implements OnInit {
   filterActivity(event: { query: any; }) {
     let filtered: string[] = [];
     let query = event.query;
-
     for(let i = 0; i < this.activitiesList.length; i++) {
         let activity = this.activitiesList[i];
         if (activity.toLowerCase().indexOf(query.toLowerCase()) == 0) {

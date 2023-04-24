@@ -1,13 +1,10 @@
-<nav class="h-full p-2">
-  <ul class="h-full flex flex-column gap-4 p-2">
+<nav class="min-h-screen p-2">
 
-    <li class="hidden lg:block">
-      <!-- <a [routerLink]="['activities']"><img src="../../../../assets/PNGs/trakk.png" alt="trakk logo" class="w-4"></a> -->
-      <h2 [routerLink]="['activities']">Trakk</h2>
-    </li>
+  <a [routerLink]="['/']"><img src="../../../../assets/trakk.svg" alt="trakk logo" class="w-4rem m-2 hidden lg:block"></a>
 
+  <ul class="h-full flex flex-column justify-content-between gap-4 p-2">
     <div class="">
-      <li class="nav-item" [routerLink]="['']" (click)="switchDisplay()">
+      <li class="nav-item" [routerLink]="['overview']" (click)="switchDisplay()">
         <a class="nav-link">
           <small class="visible"><fa-icon class="mr-3" [icon]="icon('overview')"></fa-icon></small>
           <span class="">Overview</span>
@@ -19,12 +16,12 @@
           <span>Start</span>
         </a>
       </li>
-      <!-- <li class="nav-item" [routerLink]="['coming']">
+      <li class="nav-item" [routerLink]="['favourites']" (click)="switchDisplay()">
         <a class="nav-link">
-          <small class="visible"><fa-icon class="mr-3" [icon]="faActivity"></fa-icon></small>
-          <span>Activities</span>
+          <small class="visible"><fa-icon class="mr-3" [icon]="icon('fav')"></fa-icon></small>
+          <span>Favourites</span>
         </a>
-      </li> -->
+      </li>
       <li class="nav-item" [routerLink]="['stat']" (click)="switchDisplay()">
         <a class="nav-link">
           <small class="visible"><fa-icon class="mr-3" [icon]="icon('stat')"></fa-icon></small>
@@ -39,19 +36,19 @@
       </li>
     </div>
 
-    <div class="bordering">
-      <li class="nav-item">
-        <a class="flex" (click)="logout()">
+    <div class="text-center mt-6">
+      <div *ngIf="user$ | async as user" class="flex flex-column align-items-center nav-item my-4">
+        <p-avatar *ngIf="user.photoURL" [image]="user.photoURL" styleClass="mb-2" size="xlarge" shape="circle"></p-avatar>
+        <small *ngIf="!user?.photoURL"><fa-icon class="mb-2" [icon]="icon('user')"></fa-icon></small>
+        <div class="text-center" [routerLink]="['profile']">
+          <h4 class="text-sm font-medium mb-1">{{ user.displayName }}</h4>
+          <h5 class="text-xs font-normal">{{ user.email }}</h5>
+        </div>
+      </div>
+      <div class="nav-item" (click)="logout()">
         <small><fa-icon class="mr-3" [icon]="icon('signout')"></fa-icon></small>
-         <span class="">LogOut</span>
-        </a>
-      </li>
-      <li class="nav-item" [routerLink]="['profile']">
-        <a class="flex">
-        <small><fa-icon class="mr-3" [icon]="icon('user')"></fa-icon></small>
-         <span class="">User</span>
-        </a>
-      </li>
+        <span class="text-sm font-normal">Logout</span>
+    </div>
     </div>
   </ul>
 </nav>

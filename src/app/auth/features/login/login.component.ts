@@ -48,18 +48,32 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (valid) {
       this.authService.login(email, password)
       .then(res => {
-        console.log(res)
+        // console.log(res)
         this.router.navigate(['/activities'])
       })
       .catch(err => {
         this.isLoggingIn = false;
-        this.messageService.add({ key:'error', detail: err.code, summary: err.message, closable:false, life:3000 })
-        console.log(JSON.stringify(err.code))
+        this.messageService.add({ key:'error', summary: err.code, closable:false, life:7000 });
       })
     } else {
       this.messageService.add({ key:'error', summary: "Input valid login credentials", closable:false, life:3000 })
       this.isLoggingIn = false;
     }
+  }
+
+  onGoogleSignUp() {
+    this.isLoggingIn = true;
+    this.authService.googleSignUp()
+    .then( user => {
+        // console.log(user);
+        this.isLoggingIn = true;
+        this.router.navigate(['/activities'])
+      })
+    .catch(err => {
+      // console.log(JSON.stringify(err.message));
+      this.messageService.add({ key:'error', summary:err.code, closable:false, life:7000 })
+      this.isLoggingIn = false;
+    })
   }
 
 

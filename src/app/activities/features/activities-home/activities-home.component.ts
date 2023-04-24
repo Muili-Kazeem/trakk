@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, catchError, combineLatest, delay, map, of, startWith } from 'rxjs';
-
+import { Observable, catchError, combineLatest, map, of, startWith, tap } from 'rxjs';
 import { ActivitiesDataService } from '../../data-access/activities-data.service';
 import { StateService } from '../../data-access/state.service';
 import { IActivity, ICategorizedActivity } from '../../utils/models/iactivity';
@@ -13,11 +12,13 @@ import { recentSorting } from "../../utils/funcs/recentSorting";
   templateUrl: './activities-home.component.html',
   styleUrls: ['./activities-home.component.scss']
 })
-export class ActivitiesHomeComponent implements OnInit{
+export class ActivitiesHomeComponent implements OnInit {
   constructor(private activitiesService: ActivitiesDataService, private state: StateService, private route: ActivatedRoute) {};
   ngOnInit(): void { this.state.emitPageTitle(this.route.snapshot.data["pageTitle"]) }
 
   errorMessage!: any;
+
+  // Fetch all activities using the Data Service
   allCategorizedActivities$: Observable<IRequestState<ICategorizedActivity[]>> = this.activitiesService.allCategorizedActivities$.pipe(
     map((value) => ({isLoading: false, value})),
     catchError(err => {
@@ -61,7 +62,7 @@ export class ActivitiesHomeComponent implements OnInit{
         return acc;
       }, [] as {category: string, distance: number, duration: number, length: number}[])
     }),
-    // tap(all => console.log(all))
+    tap(all => console.log(all))
   )
 
   allRecentActivities$ = this.allActivities$.pipe(

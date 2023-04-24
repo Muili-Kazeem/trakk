@@ -7,7 +7,7 @@
 
     <!-- Mobile topbar -->
     <header class="mobile-menu-wrapper lg:hidden flex p-4 justify-content-between">
-      <img src="../../../../assets/PNGs/trakk.png" alt="trakk logo" class="w-3">
+      <a [routerLink]="['/']"><img src="../../../../assets/trakk.svg" alt="trakk logo" class="w-5rem"></a>
       <small><fa-icon (click)="display = true" class="p-2 mx-2 text-xl" [icon]="icon('menuBar')"></fa-icon></small>
     </header>
 
@@ -20,13 +20,6 @@
       <header class="layout-topbar-wrapper mx-auto w-full hidden lg:flex justify-content-between align-items-center p-3 sticky top-0"
       style="max-width: 960px;" *ngIf="!((pageTitle$ | async) === 'on')">
         <div class="text-2xl ml-3 font-bold"> {{ pageTitle$ | async }} </div>
-        <div class="flex flex-auto justify-content-end align-items-center">
-          <span class="p-input-icon-left ml-5">
-            <i class="pi pi-search"></i>
-            <input type="text" class="p-inputtext-sm" pInputText placeholder="Search" [(ngModel)]="search" />
-          </span>
-          <small class="mx-5 p-2 border-round-lg bg-white border-1 border-400"><fa-icon [icon]="icon('notif')"></fa-icon></small>
-        </div>
       </header>
 
       <div class="flex-auto">

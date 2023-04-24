@@ -10,7 +10,7 @@ export class GraphCardComponent implements OnInit {
 
   @Input() categorizedActivities!: ICategorizedActivity[];
 
-  private _selectedCategory: keyof IActivity = 'duration';
+  private _selectedCategory: keyof IActivity = 'distance';
 
   get selectedCategory(): keyof IActivity {
     return this._selectedCategory;
@@ -37,9 +37,13 @@ export class GraphCardComponent implements OnInit {
       let figure: number = 0
       this.categories.push(catActivity.category);
       catActivity.activities.map(activity => {
-        figure += activity[value] as number
+        figure += activity[value] as number;
       })
-      this.catFigures.push(figure);
+      if (value === "duration") {
+        this.catFigures.push(Math.floor(figure / 60000));
+      } else {
+        this.catFigures.push(figure);
+      }
     })
     return this.catFigures
   }

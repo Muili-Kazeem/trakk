@@ -33,3 +33,9 @@
     font-size: initial;
   }
 }
+
+:host ::ng-deep .p-toast-message {
+  box-shadow: none;
+  border: solid white 2px;
+  background: rgba(255, 118, 118, 0.827);
+}

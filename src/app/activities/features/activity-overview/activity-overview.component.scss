@@ -13,7 +13,7 @@
 }
 
 .hero-wrapper {
-  background: url("../../../../assets/pexels-philip-ackermann-878151.jpg");
+  background: url("../../../../assets/JPEG/skateboarding4.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -38,7 +38,7 @@
   z-index: 200;
 }
 
-app-activity-card {
+app-activity-card, app-top-activity-overview {
   flex: 1 1 30%;
   min-width: 300px;
 }

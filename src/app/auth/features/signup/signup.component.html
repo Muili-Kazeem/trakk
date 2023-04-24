@@ -1,4 +1,18 @@
 <div class="signup-container min-h-screen max-w-screen">
+
+  <p-toast position="center" key="error" [breakpoints]="{'1800px': {width: 'max-content'}}">
+    <ng-template let-message pTemplate="message">
+      <div class="text-xs font-normal text-white text-center mx-2">
+        <h4 class="font-medium text-sm">{{message.summary}}</h4>
+        <!-- <p class="text-200">{{message.detail}}</p> -->
+      </div>
+    </ng-template>
+  </p-toast>
+
+  <div class="card absolute mx-auto" *ngIf="isSigningUp">
+    <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+  </div>
+
   <div class="flex min-h-screen">
     <div class="flex-1 min-h-screen">
       <div class="form-container h-full flex flex-column p-2 justify-content-center gap-2 mx-auto">
@@ -29,6 +43,7 @@
           </div>
 
           <button pButton pRipple
+            [disabled]="isSigningUp"
             type="submit"
             label="Create an account"
             class="border-round-2xl py-3 my-1 w-5 lg:text-sm font-medium">
@@ -39,7 +54,7 @@
           <p-divider align="center" styleClass="w-full">
             <b>or</b>
           </p-divider>
-          <a class="flex align-items-center border-1 border-blue-400 w-max border-round-lg overflow-hidden" href="#">
+          <a class="flex align-items-center border-1 border-blue-400 w-max border-round-lg overflow-hidden cursor-pointer" (click)="onGoogleSignUp()" >
             <img src="../../../assets/PNGs/google.png" class="m-2" width="20px" alt="google slug">
             <span class="bg-blue-500 text-white hover:bg-blue-600 text-md" style="padding: 0.8rem;">Sign up with Google</span>
           </a>

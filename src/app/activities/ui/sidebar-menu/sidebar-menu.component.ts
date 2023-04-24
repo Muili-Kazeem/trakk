@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class SidebarMenuComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
+  user$ = this.authService.getAuth();
+
   icon(category: string) {
     return iconSelect(category)
   }
@@ -22,11 +24,13 @@ export class SidebarMenuComponent {
   }
 
   logout() {
-    this.authService.logout().then(val => {
-      this.switchDisplay()
-      // A modal confirmation
-      this.router.navigate(["/auth"]);
-    })
+    if (confirm("Are you sure you want to logout?")) {
+      this.authService.logout().then(val => {
+        this.switchDisplay()
+        // A modal confirmation
+        this.router.navigate(["/auth"]);
+      })
+    }
   }
 
 }

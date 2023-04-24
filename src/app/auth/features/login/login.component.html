@@ -3,12 +3,12 @@
     <ng-template let-message pTemplate="message">
       <div class="text-xs font-normal text-white text-center mx-2">
         <h4 class="font-medium text-sm">{{message.summary}}</h4>
-        <p class="text-200">{{message.detail}}</p>
+        <!-- <p class="text-200">{{message.detail}}</p> -->
       </div>
     </ng-template>
   </p-toast>
 
-  <div class="card absolute" *ngIf="isLoggingIn">
+  <div class="card absolute bordering" *ngIf="isLoggingIn">
     <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
   </div>
 
@@ -20,7 +20,7 @@
         </div>
 
         <div class="w-max">
-          <a class="flex align-items-center border-1 border-blue-400 w-max border-round-lg overflow-hidden" href="#">
+          <a class="flex align-items-center border-1 border-blue-400 w-max border-round-lg overflow-hidden" (click)="onGoogleSignUp()">
             <img src="../../../assets/PNGs/google.png" class="m-2" width="20px" alt="google slug">
             <span class="bg-blue-500 text-white hover:bg-blue-600 text-md" style="padding: 0.8rem;">Sign in with Google</span>
           </a>

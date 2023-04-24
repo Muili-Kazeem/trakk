@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription, catchError, map, of, startWith, switchMap, tap } from 'rxjs';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription, catchError, map, of, startWith, switchMap } from 'rxjs';
 import { ActivitiesDataService } from '../../data-access/activities-data.service';
+import { MessageService } from 'primeng/api';
 import { MapService } from './map.service';
 import { IActivity } from '../../utils/models/iactivity';
 import { iconSelect } from '../../utils/funcs/iconSelect';
@@ -12,10 +12,18 @@ import { IRequestState } from '../../utils/models/iRequestState';
 @Component({
   selector: 'app-activity-details',
   templateUrl: './activity-details.component.html',
-  styleUrls: ['./activity-details.component.scss']
+  styleUrls: ['./activity-details.component.scss'],
+  providers: [MessageService]
 })
 export class ActivityDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
-  constructor( private activitiesService: ActivitiesDataService, private route: ActivatedRoute, private mapService: MapService ) {};
+
+  constructor(
+    private activitiesService: ActivitiesDataService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private mapService: MapService,
+    private messageService: MessageService
+  ) {};
   ngOnInit(): void {};
   icon(category: string) { return iconSelect(category) };
 
@@ -28,10 +36,8 @@ export class ActivityDetailsComponent implements OnInit, AfterViewInit, OnDestro
     switchMap(route => {
       this.activityCategory = route.get("activity")!;
       this.activityId = route.get("id")!;
-      console.log(this.activityCategory, this.activityId);
       return this.activitiesService.getActivityData(this.activityCategory, this.activityId);
     }),
-    // tap(all => console.log(all)),
     map((value) => ({isLoading: false, value})),
     catchError(err => {
       // this.errorMessage = err;
@@ -49,6 +55,32 @@ export class ActivityDetailsComponent implements OnInit, AfterViewInit, OnDestro
     this.mapService.lineAnimate(this.activity);
   }
 
+  shareLink() {
+
+  }
+
+  copyLink() {
+    navigator.clipboard.writeText("Hi there").then(
+      cb => {
+        this.messageService.add({ key:'notification', summary:"Link copied", closable:false, life:2000 });
+      }
+    )
+  }
+
+  addToFav() {
+
+  }
+
+  delete() {
+    if(confirm("Are you sure you want to delete this activity?")) {
+      this.activitiesService.deleteActivity(this.activityId).subscribe(
+        (done: void) => {
+          this.messageService.add({ key:'notification', summary:"Activity deleted", closable:false, life:3000 });
+         this.router.navigateByUrl(`/activities`)
+        }
+      )
+    }
+  }
 
   ngOnDestroy(): void {
     if (this.activitySub) { this.activitySub.unsubscribe() }

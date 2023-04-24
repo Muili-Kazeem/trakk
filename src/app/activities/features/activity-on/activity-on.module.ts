@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PrimeNgModule } from 'src/app/shared/ui/prime-ng/prime-ng.module';
 import { RouterModule } from '@angular/router';
-import { ActivityOnComponent } from './activity-on.component';
+import { PrimeNgModule } from 'src/app/shared/ui/prime-ng/prime-ng.module';
 import { ActivityOnGuard } from '../../data-access/guards/activity-on.guard';
+import { ActivityOnComponent } from './activity-on.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +20,5 @@ import { ActivityOnGuard } from '../../data-access/guards/activity-on.guard';
       }
     ]),
   ],
-  // entryComponents: [
-  //   ActiveActivityMapComponent
-  // ]
 })
 export class ActivityOnModule { }

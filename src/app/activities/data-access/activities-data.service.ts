@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IActivity, ICategorizedActivity } from '../utils/models/iactivity';
-import { Observable, BehaviorSubject, catchError, map, throwError, withLatestFrom, take, filter, tap, shareReplay, switchMap, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CollectionReference, Firestore, addDoc, collection, collectionSnapshots } from '@angular/fire/firestore';
+import { Observable, BehaviorSubject, catchError, map, throwError, withLatestFrom, take, filter, tap, shareReplay, switchMap } from 'rxjs';
+import { CollectionReference, DocumentReference, Firestore, addDoc, collection, collectionSnapshots, deleteDoc, doc } from '@angular/fire/firestore';
+
 import { AuthService } from 'src/app/auth/data-access/auth.service';
-import { ACTIVITIES } from './activities';
+import { IActivity, ICategorizedActivity } from '../utils/models/iactivity';
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +25,15 @@ export class ActivitiesDataService {
     this.activityFormDataSubject.next(activity)
   }
 
-  post(data: any) {
+  postActivity(data: any) {
     return this.authService.getAuth().pipe(
       switchMap(user => addDoc<IActivity>(collection(this.fireStore, `activities/${user?.uid}/activities`) as CollectionReference<IActivity>, data)),
-      tap(all => console.log(all))
+    )
+  }
+
+  deleteActivity(docId: string) {
+    return this.authService.getAuth().pipe(
+      switchMap(user => deleteDoc(doc(this.fireStore, `activities/${user?.uid}/activities/${docId}`) as DocumentReference<IActivity>)),
     )
   }
 
@@ -39,8 +45,7 @@ export class ActivitiesDataService {
         withLatestFrom(this.activityFormData$.pipe(filter(value => Object.keys(value).length !== 0), take(1))),
         map(([activityData, formData]) => ({ ...activityData, ...formData } as IActivity)),
         tap(all => console.log(all)),
-        switchMap(data => this.post(data)),
-        tap(all => console.log(all))
+        switchMap(data => this.postActivity(data))
       )
   }
 
@@ -83,13 +88,15 @@ export class ActivitiesDataService {
         allCategorizedActivities.find(categorizedActivity => categorizedActivity.category == activityCategory)?.activities as IActivity[]
       )
     )
-  }
+  };
 
   // Get data for a specific activity
   getActivityData(activityCategory:string, id: string): Observable<IActivity> {
     return this.getCategoryData(activityCategory)
-      .pipe(map(categoryActivities => categoryActivities.find(activity => activity.activityId === id) as IActivity))
-  }
+      .pipe(
+        map(categoryActivities => categoryActivities.find(activity => activity.activityId === id) as IActivity)
+      )
+  };
 
 
 
