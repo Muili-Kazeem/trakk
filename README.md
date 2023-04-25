@@ -6,12 +6,12 @@
 ## Table of contents
   * [Introduction](#introduction)
   * [Features](#features)
-  * [Technologies used](#technologies_used)
+  * [Technologies used](#technologiesused)
   * [Setup](#setup)
   * [Inspiration](#inspiration)
 
 ## Features
-  * An appealing simplistic descriptive landing page.
+  * An appealing and simple descriptive landing page.
   * Accurately measures and records user location, distance, altitude and speed on the go.
   * Easily copy and share activity link with friends.
   * Interactive map interface to visualize present location and activity.
@@ -49,5 +49,5 @@ local development server will start after. Navigate to `http://localhost:4200/`.
 
 
 ## Inspiration
-This app is proudly inspired by [Strava](https://strava.com)
-Frontend design, coding architecture design, folder structure and all within it are solely mine as garnered from numerous web development tutorials. Especially from **Google Africa Developer Scholarship**(GADS 2022).
+* This app is proudly inspired by [Strava](https://strava.com).
+* Frontend design, coding architecture design, folder structure and all within it are solely mine as garnered from numerous web development tutorials. Especially from **Google Africa Developer Scholarship**(GADS 2022).
