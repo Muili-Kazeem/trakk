@@ -1,27 +1,53 @@
-# Trakk
+# Trakk - Activity Tracking App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.3.
+[Trakk](https://trakk.web.app) is a user-centric browser-based activity tracking and recording app built entirely on GeoLocationAPI.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Table of contents
+  * [Introduction](#introduction)
+  * [Features](#features)
+  * [Technologies used](#technologies_used)
+  * [Setup](#setup)
+  * [Inspiration](#inspiration)
 
-## Code scaffolding
+## Features
+  * An appealing simplistic descriptive landing page.
+  * Accurately measures and records user location, distance, altitude and speed on the go.
+  * Easily copy and share activity link with friends.
+  * Interactive map interface to visualize present location and activity.
+  * Covered a path and did not remember where and how? YOU CAN ALWAYS REPLAY WITH TRAKK!.
+  * Authentication system for personalized use.
+  * A one-time glance at important user metrics covered with Trakk.
+  * Keeps a collection of accessible user's favourite activity moments.
+  * A graphical representation of user activities on Trakk.
+  * Take on challenges with users nearby.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Technologies used
 
-## Build
+[Trakk](https://trakk.web.app) was built with:
+* Angular: v15.1
+* TypeScript: v4.9
+* ChartJs: v4.2
+* Gsap: v3.11
+* Luxon: v3.2
+* Mapbox: v2.12
+* PrimeNg: v15.2
+* PrimeFlex: v3.3
+* RxJs: v7.8
+* Sass
+* Firebase
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+## Setup
+To run it locally, fork and clone. Install locally using npm
+```
+$ cd ./trakk
+$ npm install
+$ ng serve
+```
+local development server will start after. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Inspiration
+This app is proudly inspired by [Strava](https://strava.com)
+Frontend design, coding architecture design, folder structure and all within it are solely mine as garnered from numerous web development tutorials. Especially from **Google Africa Developer Scholarship**(GADS 2022).
