@@ -17,12 +17,14 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { ConfirmationService } from 'primeng/api';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

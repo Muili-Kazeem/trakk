@@ -51,7 +51,7 @@ export class MapService {
           const bounds = new mapboxgl.LngLatBounds( coordinates[0], coordinates[0] );
           // Extend the 'LngLatBounds' to include every coordinate in the bounds result.
           for (const coord of coordinates) { bounds.extend(coord); };
-          this.map.fitBounds(bounds, { padding: 200 });
+          this.map.fitBounds(bounds, { padding: 150 });
     });
   }
 

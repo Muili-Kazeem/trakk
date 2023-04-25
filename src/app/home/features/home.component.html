@@ -4,7 +4,7 @@
     <div class="hero">
       <div class="hero_body">
         <div class="hero_body__nav" #nav>
-          <a class="hero_trakk"><img src="../../../assets/trakk.svg" alt="trakk_slug"></a>
+          <a class="hero_trakk" [routerLink]="['/']"><img src="../../../assets/PNGs/trakk.png" alt="trakk_slug"></a>
           <div>
             <a [routerLink]="['/auth', 'login']" class="btn login-btn">Login</a>
             <a [routerLink]="['/auth', 'signup']" class="btn start-btn">Get started</a>
@@ -31,7 +31,7 @@
     <div class="intro" #intro>
       <div class="intro_wrapper">
         <h4>About</h4>
-        <a class="intro_trakk"><img src="../../../assets/trakk_offset.svg" alt="trakk_slug"></a>
+        <a class="intro_trakk"><img src="../../../assets/PNGs/trakk_offset.png" alt="trakk_slug"></a>
         <div class="intro_body">
           <h2 class="intro_body__header">
             <span>Tracking <span class="outline">&</span> Sharing <br> got easier and interactive</span>

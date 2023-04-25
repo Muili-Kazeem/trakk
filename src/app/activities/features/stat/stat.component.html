@@ -10,10 +10,10 @@ Fastest speed -->
 <div class="stat-layout h-full m-auto lg:p-1">
   <h3 class="font-semibold text-3xl lg:my-5 m-3">Trakk Career Records</h3>
   <div class="activities-stat flex flex-column lg:flex-row flex-wrap gap-3">
-    <app-stat-prop></app-stat-prop>
-    <app-stat-prop></app-stat-prop>
-    <app-stat-prop></app-stat-prop>
-    <app-stat-prop></app-stat-prop>
+    <app-stat-prop
+      *ngFor="let statsProp of statsArray"
+      [statProp]="statsProp">
+    </app-stat-prop>
   </div>
 </div>
 

@@ -1,8 +1,7 @@
 <div class="stat-prop lg:border-round-lg lg:border-round-3xl surface-200 flex flex-column p-5">
-  <h4 class="text-lg mb-1">Total distance</h4>
-  <p class="text-800 text-xs lg:max-w-12rem max-w-25rem font-medium">Total distance covered throughout your Trakk career</p>
+  <h4 class="text-lg mb-1">{{ statProp.header }}</h4>
+  <p class="text-800 text-xs lg:max-w-12rem max-w-25rem font-medium">{{ statProp.subheader }}</p>
   <span class="flex align-items-end gap-1 font-bold my-3">
-    <h3 class="text-5xl">567.56</h3> <small class="mb-3">km</small>
+    <h3 class="text-5xl" *ngIf="statProp.value | async as value">{{ value | formatValue : statProp.format }}</h3>
   </span>
-  <p class="text-xs">Round and round the world you go!</p>
 </div>

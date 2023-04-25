@@ -44,14 +44,13 @@ export class HandlemapService {
           'layout': { 'icon-image': 'rocket' }
         })
 
-        let mapView = false;
         // Update the source from the getLocation API every 2 seconds.
         const updateSource = setInterval(async () => {
           try {
             const pointCoordinates = await this.getLocation(updateSource);
             const geoJson = this.returnGeojson(pointCoordinates)
             // Fly the map to the location.
-            if (!mapView) { this.map.flyTo({ "center": pointCoordinates, "speed": 0.5, "zoom": 17 }); mapView = true }
+            this.map.flyTo({ "center": pointCoordinates, "speed": 0.5, "zoom": 17 });
             this.map.getSource('locate').setData(geoJson);
           } catch (err) {
             // console.log(`Error thrown in setInterval updateSource ${err}`)

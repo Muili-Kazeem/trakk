@@ -14,7 +14,7 @@ export class LoginGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return authState(this.fireAuth)
       .pipe(
-        tap(auth => { console.log(auth)}),
+        // tap(auth => { console.log(auth)}),
         map(auth => {
           if(!auth) {
             this.router.navigate(['/auth'])

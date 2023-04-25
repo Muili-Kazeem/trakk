@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { DateTime } from 'luxon';
 import { gsap } from 'gsap';
 import { ActivitiesDataService } from '../../data-access/activities-data.service';
@@ -33,6 +33,7 @@ export class ActivityOnComponent implements OnInit, OnDestroy, AfterViewInit {
   paused: boolean = false;
   animationObj!: any;
   sub!: Subscription;
+  formDataSub!: Subscription;
   displayMetricsPane: boolean = true;
   activityCategory!: string;
   activityId!: string;
@@ -49,15 +50,22 @@ export class ActivityOnComponent implements OnInit, OnDestroy, AfterViewInit {
     private map: HandlemapService ) {}
 
   ngOnInit(): void {
+    this.formDataSub = this.activitiesService.activityFormData$.subscribe(
+      data => {
+        if (Object.keys(data).length === 0) {
+          this.router.navigate(['activities', 0, 'start'])
+        }
+      }
+    )
     this.activityCategory = this.route.snapshot.paramMap.get("activity") as string;
     this.activityId = this.route.snapshot.paramMap.get("id") as string;
     this.state.emitPageTitle(this.route.snapshot?.data["pageTitle"]);
-    this.scrollToMap();
   }
 
   ngAfterViewInit(): void {
-    this.map.buildMap()
-    this.messageService.add({ key: 'gps', detail: "Please turn on your Location. Acquiring GPS...", closable: false, life: 5000 })
+    this.map.buildMap();
+    this.messageService.add({ key: 'gps', detail: "Please turn on your Location. Acquiring GPS...", closable: false, life: 5000 });
+    this.scrollToMap();
   }
 
   startAnimation() {
@@ -139,7 +147,13 @@ export class ActivityOnComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     if (this.map.map) {
-      this.map.unsubscribe()
+      this.map.unsubscribe();
+    }
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.formDataSub) {
+      this.formDataSub.unsubscribe();
     }
   }
 }

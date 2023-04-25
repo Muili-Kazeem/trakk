@@ -15,7 +15,7 @@ export class ActivityOnGuard implements CanDeactivate<ActivityOnComponent> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if(component.started && component.ongoing) {
-        return confirm("Will you go ahead?");
+        return confirm("You are presently tracking an activity. Will you like to leave now?");
       }
     return true;
   }
