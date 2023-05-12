@@ -5,6 +5,11 @@ import { LoginGuard } from './activities/data-access/guards/login.guard';
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: "full"
+  },
+  {
     path: 'home',
     loadChildren: () =>
       import("./home/features/home.module").then(
@@ -25,11 +30,6 @@ const routes: Routes = [
       import("./auth/features/auth.module").then(
         (m) => m.AuthModule
       )
-  },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: "full"
   },
   { path: '**', component: NotFoundComponent }
 ];
